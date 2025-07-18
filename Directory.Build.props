@@ -1,0 +1,17 @@
+<Project>
+    <PropertyGroup>
+        <Company>Mad-World.nl</Company>
+        <Copyright>Copyright (c) Mad-World.nl 2025</Copyright>
+        <Authors>Oscar Veldman</Authors>
+        <Product>MadTransfer</Product>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>MadWorldNL.MadTransfer</RootNamespace>
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    </PropertyGroup>
+</Project>

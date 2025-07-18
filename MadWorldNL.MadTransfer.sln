@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FB739D40-EF66-40EB-BE5C-71BE64F5E723}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4DBA1F89-75B4-49E2-B400-72C5BAF1700E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{DA5B1CA7-56B5-4462-9D85-D13A25D5C2B8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "git", "git", "{663D0744-4242-4DD1-B8E7-6FF65A6594D7}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+		README.md = README.md
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution", "solution", "{38099395-FE17-49AF-BFA3-429EC42C745F}"
+	ProjectSection(SolutionItems) = preProject
+		NuGet.Config = NuGet.Config
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MadWorldNL.MadTransfer.Api", "src\MadWorldNL.MadTransfer.Api\MadWorldNL.MadTransfer.Api.csproj", "{3587E2CA-6929-4E0A-B998-669FFD397837}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3587E2CA-6929-4E0A-B998-669FFD397837} = {FB739D40-EF66-40EB-BE5C-71BE64F5E723}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3587E2CA-6929-4E0A-B998-669FFD397837}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3587E2CA-6929-4E0A-B998-669FFD397837}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3587E2CA-6929-4E0A-B998-669FFD397837}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3587E2CA-6929-4E0A-B998-669FFD397837}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
