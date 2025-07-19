@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <AssemblyName>$(RootNamespace).Controllers.Api</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>
@@ -12,6 +13,10 @@
       <Content Include="..\..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\MadWorldNL.MadTransfer.Domains.Contracts\Contracts.csproj" />
     </ItemGroup>
 
 </Project>
