@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution", "solution", "{38
 		NuGet.Config = NuGet.Config
 		Directory.Build.props = Directory.Build.props
 		Directory.Packages.props = Directory.Packages.props
+		docker-compose.yml = docker-compose.yml
+		docker-compose.env = docker-compose.env
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "src\MadWorldNL.MadTransfer.Controllers.Api\Api.csproj", "{3587E2CA-6929-4E0A-B998-669FFD397837}"
@@ -28,7 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructures", "Infrastr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domains", "Domains", "{E3B93468-E6D4-4B31-B714-93CF22941E4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "src\MadWorldNL.MadTransfer.Domains.Contracts\Contracts.csproj", "{340E89E5-97C1-4D95-BD63-C848BA6A538E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "src\MadWorldNL.MadTransfer.Controllers.Contracts\Contracts.csproj", "{340E89E5-97C1-4D95-BD63-C848BA6A538E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,7 +42,7 @@ Global
 		{3587E2CA-6929-4E0A-B998-669FFD397837} = {5758F264-35F0-4B08-A004-F29341DDFA2D}
 		{22F88AC0-EB10-4111-92F1-864AA0BF0D49} = {FB739D40-EF66-40EB-BE5C-71BE64F5E723}
 		{E3B93468-E6D4-4B31-B714-93CF22941E4B} = {FB739D40-EF66-40EB-BE5C-71BE64F5E723}
-		{340E89E5-97C1-4D95-BD63-C848BA6A538E} = {E3B93468-E6D4-4B31-B714-93CF22941E4B}
+		{340E89E5-97C1-4D95-BD63-C848BA6A538E} = {5758F264-35F0-4B08-A004-F29341DDFA2D}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{3587E2CA-6929-4E0A-B998-669FFD397837}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

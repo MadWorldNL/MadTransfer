@@ -16,7 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\MadWorldNL.MadTransfer.Domains.Contracts\Contracts.csproj" />
+      <ProjectReference Include="..\MadWorldNL.MadTransfer.Controllers.Contracts\Contracts.csproj" />
     </ItemGroup>
 
 </Project>
