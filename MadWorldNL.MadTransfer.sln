@@ -32,6 +32,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domains", "Domains", "{E3B9
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "src\MadWorldNL.MadTransfer.Controllers.Contracts\Contracts.csproj", "{340E89E5-97C1-4D95-BD63-C848BA6A538E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "src\MadWorldNL.MadTransfer.Controllers.Web\Web.csproj", "{9C95B351-D964-48CC-B2CE-BBAF7C6F596E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,7 @@ Global
 		{22F88AC0-EB10-4111-92F1-864AA0BF0D49} = {FB739D40-EF66-40EB-BE5C-71BE64F5E723}
 		{E3B93468-E6D4-4B31-B714-93CF22941E4B} = {FB739D40-EF66-40EB-BE5C-71BE64F5E723}
 		{340E89E5-97C1-4D95-BD63-C848BA6A538E} = {5758F264-35F0-4B08-A004-F29341DDFA2D}
+		{9C95B351-D964-48CC-B2CE-BBAF7C6F596E} = {5758F264-35F0-4B08-A004-F29341DDFA2D}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{3587E2CA-6929-4E0A-B998-669FFD397837}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -53,5 +56,9 @@ Global
 		{340E89E5-97C1-4D95-BD63-C848BA6A538E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{340E89E5-97C1-4D95-BD63-C848BA6A538E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{340E89E5-97C1-4D95-BD63-C848BA6A538E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C95B351-D964-48CC-B2CE-BBAF7C6F596E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C95B351-D964-48CC-B2CE-BBAF7C6F596E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C95B351-D964-48CC-B2CE-BBAF7C6F596E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C95B351-D964-48CC-B2CE-BBAF7C6F596E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -14,7 +14,18 @@ services:
       - "3000:8080"
       - "3001:8081"
     networks:
+      - api
       - postgres
+  web:
+    image: ghcr.io/madworldnl/mad-transfer-web:${IMAGE_TAG}
+    container_name: web
+    build:
+      context: .
+      dockerfile: ./src/MadWorldNL.MadTransfer.Controllers.Web/Dockerfile
+    ports:
+      - "4201:8080"
+    networks:
+      - api
   database:
     image: postgres:17
     container_name: mad-transfer-database
@@ -39,4 +50,5 @@ services:
 volumes:
   postgres-data:
 networks:
+  api:
   postgres:
