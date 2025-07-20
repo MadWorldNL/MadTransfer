@@ -12,7 +12,10 @@ internal static class FileEndpoints
 
         endpoints.MapPost("/Upload", ([FromForm] UploadRequest request) =>
         {
-            return Results.Accepted();
+            return Results.Ok(new UploadResponse()
+            {
+                DownloadUrl = "example.nl/download"
+            });
         });
     }
 }
