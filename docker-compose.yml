@@ -4,12 +4,19 @@ services:
   api:
     image: ghcr.io/madworldnl/mad-transfer-api:${IMAGE_TAG}
     container_name: api
+    restart: always
     build:
       context: .
       dockerfile: ./src/MadWorldNL.MadTransfer.Controllers.Api/Dockerfile
     depends_on:
       database:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:8080/healthz || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     ports:
       - "3000:8080"
       - "3001:8081"
@@ -22,6 +29,9 @@ services:
     build:
       context: .
       dockerfile: ./src/MadWorldNL.MadTransfer.Controllers.Web/Dockerfile
+    depends_on:
+      api:
+        condition: service_healthy
     ports:
       - "4201:8080"
     networks:
