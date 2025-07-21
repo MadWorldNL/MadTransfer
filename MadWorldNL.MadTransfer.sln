@@ -38,6 +38,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Functions", "src\MadWorldNL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstractions", "src\MadWorldNL.MadTransfer.Domains.Abstractions\Abstractions.csproj", "{2140D2F7-C03F-4A05-8B59-95F536944DE2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Databases", "src\MadWorldNL.MadTransfer.Infrastructures.Databases\Databases.csproj", "{922AB7BC-5E66-4D5E-969D-480537DCF2EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +54,7 @@ Global
 		{9C95B351-D964-48CC-B2CE-BBAF7C6F596E} = {5758F264-35F0-4B08-A004-F29341DDFA2D}
 		{2025F27A-E816-48CB-82FA-D625D4D27AEF} = {E3B93468-E6D4-4B31-B714-93CF22941E4B}
 		{2140D2F7-C03F-4A05-8B59-95F536944DE2} = {E3B93468-E6D4-4B31-B714-93CF22941E4B}
+		{922AB7BC-5E66-4D5E-969D-480537DCF2EE} = {22F88AC0-EB10-4111-92F1-864AA0BF0D49}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{3587E2CA-6929-4E0A-B998-669FFD397837}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -74,5 +77,9 @@ Global
 		{2140D2F7-C03F-4A05-8B59-95F536944DE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2140D2F7-C03F-4A05-8B59-95F536944DE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2140D2F7-C03F-4A05-8B59-95F536944DE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{922AB7BC-5E66-4D5E-969D-480537DCF2EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{922AB7BC-5E66-4D5E-969D-480537DCF2EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{922AB7BC-5E66-4D5E-969D-480537DCF2EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{922AB7BC-5E66-4D5E-969D-480537DCF2EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
