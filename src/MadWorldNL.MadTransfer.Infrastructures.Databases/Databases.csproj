@@ -2,4 +2,10 @@
   <PropertyGroup>
     <AssemblyName>$(RootNamespace).Infrastructures.Databases</AssemblyName>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MadWorldNL.MadTransfer.Domains.Abstractions\Abstractions.csproj" />
+  </ItemGroup>
 </Project>

@@ -7,6 +7,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime" />
     </ItemGroup>
 
     <ItemGroup>
@@ -18,6 +19,7 @@
     <ItemGroup>
       <ProjectReference Include="..\MadWorldNL.MadTransfer.Controllers.Contracts\Contracts.csproj" />
       <ProjectReference Include="..\MadWorldNL.MadTransfer.Domains.Functions\Functions.csproj" />
+      <ProjectReference Include="..\MadWorldNL.MadTransfer.Infrastructures.Databases\Databases.csproj" />
     </ItemGroup>
 
 </Project>
