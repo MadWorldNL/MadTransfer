@@ -17,6 +17,8 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+    environment:
+      - ConnectionStrings__MadTransferContext=Host=database;Port=5432;Database=MadTransfer;Username=postgres;Password=MadPassword1234!;Trust Server Certificate=true;
     ports:
       - "3000:8080"
       - "3001:8081"
@@ -57,8 +59,23 @@ services:
       - postgres
     volumes:
       - postgres-data:/var/lib/postgresql/data
+  database-admin:
+    image: dpage/pgadmin4:9
+    container_name: database-admin
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=test@test.nl
+      - PGADMIN_DEFAULT_PASSWORD=Secret1234
+    ports:
+      - "9080:80"
+      - "9081:443"
+    networks:
+      - postgres
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
 volumes:
   postgres-data:
+  pgadmin-data:
 networks:
   api:
   postgres:
