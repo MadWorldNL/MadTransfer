@@ -73,9 +73,21 @@ services:
       - postgres
     volumes:
       - pgadmin-data:/var/lib/pgadmin
+  authentication-server:
+    image: quay.io/keycloak/keycloak:26.3.1
+    container_name: keycloak
+    command: start-dev
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+    ports:
+      - "5555:8080"
+    volumes:
+      - keycloak-data:/opt/keycloak/data
 volumes:
   postgres-data:
   pgadmin-data:
+  keycloak-data:
 networks:
   api:
   postgres:
