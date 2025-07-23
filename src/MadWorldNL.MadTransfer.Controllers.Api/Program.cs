@@ -60,9 +60,9 @@ builder.Services.AddDbContextPool<MadTransferContext>(opt =>
 
 var app = builder.Build();
 
+app.UseCors(allowedCors);
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseCors(allowedCors);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
