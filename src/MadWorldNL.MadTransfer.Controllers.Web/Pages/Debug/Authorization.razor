@@ -1,0 +1,47 @@
+@page "/Debug/Authorization"
+@using MadWorldNL.MadTransfer.Security
+@inject IHttpClientFactory HttpClientFactory;
+@inject AuthenticationStateProvider AuthenticationStateProvider;
+<h3>Authorization</h3>
+
+<p>Status Code: @_statusCode</p>
+<p>Response: @_response</p>
+
+@code {
+    private string _statusCode = "None";
+    private string _response = "<<Waiting for response>>";
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var user = (await AuthenticationStateProvider
+            .GetAuthenticationStateAsync()).User;
+
+        if (user.Identity is not null && user.Identity.IsAuthenticated)
+        {
+            var clientAuthorization = HttpClientFactory.CreateClient(ApiNames.Authorization);
+        
+            var responseOne = await clientAuthorization.GetAsync("/Debug/Authorization");
+
+            _statusCode = responseOne.StatusCode.ToString();
+            if (responseOne.IsSuccessStatusCode)
+            {
+                _response = await responseOne.Content.ReadAsStringAsync();
+            }
+            else
+            {
+                _response = "Response failed!";
+            }
+        }
+        else
+        {
+            var clientAnonymouse = HttpClientFactory.CreateClient(ApiNames.Anonymous);
+        
+            var responseTwo = await clientAnonymouse.GetAsync("/Debug/Authorization");
+            _statusCode = responseTwo.StatusCode.ToString();
+            _response = "You must logged in!";
+        }
+        
+        await base.OnInitializedAsync();
+    }
+
+}
