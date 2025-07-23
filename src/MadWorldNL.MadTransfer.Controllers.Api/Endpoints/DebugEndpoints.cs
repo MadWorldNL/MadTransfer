@@ -7,6 +7,6 @@ internal static class DebugEndpoints
         var endpoints = app.MapGroup("/Debug")
             .DisableAntiforgery();
 
-        endpoints.MapGet("/Authorization", Results.NoContent).RequireAuthorization();
+        endpoints.MapGet("/Authorization", () => Results.Ok("OK")).RequireAuthorization();
     }
 }

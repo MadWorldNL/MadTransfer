@@ -1,12 +1,18 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MadWorldNL.MadTransfer;
+using MadWorldNL.MadTransfer.Security;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+
+builder.Services.AddScoped<MyAuthorizationMessageHandler>();
+builder.Services.AddHttpClient(ApiNames.Anonymous, client => client.BaseAddress = new Uri("https://localhost:7299/"));
+builder.Services.AddHttpClient(ApiNames.Authorization, client => client.BaseAddress = new Uri("https://localhost:7299/"))
+    .AddHttpMessageHandler<MyAuthorizationMessageHandler>();
 
 builder.Services.AddOidcAuthentication(options =>
 {

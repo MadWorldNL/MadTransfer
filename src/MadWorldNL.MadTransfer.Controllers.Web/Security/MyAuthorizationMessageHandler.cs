@@ -8,6 +8,6 @@ public class MyAuthorizationMessageHandler : AuthorizationMessageHandler
     public MyAuthorizationMessageHandler(IAccessTokenProvider provider, NavigationManager navigation) : base(provider, navigation)
     {
         ConfigureHandler(
-            authorizedUrls: new[] { "https://localhost:7299/" });
+            authorizedUrls: new[] { "https://localhost:7299/", "http://localhost:3000/" });
     }
 }

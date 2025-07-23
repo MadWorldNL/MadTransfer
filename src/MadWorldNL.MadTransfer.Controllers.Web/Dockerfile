@@ -23,3 +23,4 @@ FROM base AS final
 LABEL org.opencontainers.image.source="https://github.com/MadWorldNL/MadTransfer"
 
 COPY --from=publish /app/publish/wwwroot /usr/share/nginx/html
+COPY ["src/MadWorldNL.MadTransfer.Controllers.Web/Configs/default.conf", "/etc/nginx/conf.d/"]
