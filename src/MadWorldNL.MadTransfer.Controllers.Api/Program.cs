@@ -1,4 +1,5 @@
 using MadWorldNL.MadTransfer;
+using MadWorldNL.MadTransfer.Configurations;
 using MadWorldNL.MadTransfer.Databases;
 using MadWorldNL.MadTransfer.Endpoints;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -9,21 +10,25 @@ const string allowedCors = nameof(allowedCors);
 
 var builder = WebApplication.CreateBuilder(args);
 
+var authenticationSettings = builder.Configuration
+    .GetRequiredSection(AuthenticationSettings.Key)
+    .Get<AuthenticationSettings>()!;
+
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.Authority = "http://localhost:5555/realms/madworld"; // Keycloak realm URL
-        options.Audience = "mad-transfer-api"; // Match the "Client ID" of your Keycloak client
+        options.Authority = authenticationSettings.Authority; // Keycloak realm URL
+        options.Audience = authenticationSettings.Authority; // Match the "Client ID" of your Keycloak client
         options.RequireHttpsMetadata = false; // Only for dev/local
 
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
+            ValidateIssuer = authenticationSettings.ValidateUser,
+            ValidateAudience = authenticationSettings.ValidateUser,
+            ValidateLifetime = authenticationSettings.ValidateUser,
+            ValidateIssuerSigningKey = authenticationSettings.ValidateUser,
             NameClaimType = "preferred_username",
             RoleClaimType = "roles"
         };

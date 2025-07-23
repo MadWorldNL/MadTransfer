@@ -19,6 +19,8 @@ services:
       start_period: 40s
     environment:
       - ConnectionStrings__MadTransferContext=Host=database;Port=5432;Database=MadTransfer;Username=postgres;Password=MadPassword1234!;Trust Server Certificate=true;
+      - Authentication__Authority=http://host.docker.internal:5555/realms/madworld
+      - Authentication__ValidateUser=false
     ports:
       - "3000:8080"
       - "3001:8081"
