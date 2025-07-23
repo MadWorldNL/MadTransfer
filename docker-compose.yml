@@ -35,8 +35,8 @@ services:
       api:
         condition: service_healthy
     ports:
-      - "3002:8080"
-      - "3003:8081"
+      - "3002:80"
+      - "3003:443"
     networks:
       - api
   database:
