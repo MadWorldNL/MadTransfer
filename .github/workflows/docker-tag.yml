@@ -1,9 +1,5 @@
 name: Build & Push Docker Compose Services Tag
 
-permissions:
-  contents: read
-  packages: write
-
 on:
   push:
     tags:
@@ -35,18 +31,8 @@ jobs:
           username: ${{ secrets.GHCR_USERNAME }}
           password: ${{ secrets.GHCR_TOKEN }}
 
-      - name: Build services on linux/amd64
-        run: docker compose -f docker-compose.yml --env-file docker-compose-tag.env build --build-arg BUILDPLATFORM=linux/amd64 api web
+      - name: Build & push service api
+        run: docker buildx build --platform linux/amd64,linux/arm64 -f src/MadWorldNL.MadTransfer.Controllers.Api/Dockerfile --tag ghcr.io/madworldnl/mad-transfer-api:latest --push .
 
-      - name: Push services for linux/amd64
-        run: |
-          docker push --platform linux/amd64 ghcr.io/madworldnl/mad-transfer-api
-          docker push --platform linux/amd64 ghcr.io/madworldnl/mad-transfer-web
-
-      - name: Build services on linux/arm64
-        run: docker compose -f docker-compose.yml --env-file docker-compose-tag.env build --build-arg BUILDPLATFORM=linux/arm64 api web
-
-      - name: Push services for linux/arm64
-        run: |
-          docker push --platform linux/arm64 ghcr.io/madworldnl/mad-transfer-api
-          docker push --platform linux/arm64 ghcr.io/madworldnl/mad-transfer-web
+      - name: Build & push service web
+        run: docker buildx build --platform linux/amd64,linux/arm64 -f src/MadWorldNL.MadTransfer.Controllers.Web/Dockerfile --tag ghcr.io/madworldnl/mad-transfer-web:latest --push .

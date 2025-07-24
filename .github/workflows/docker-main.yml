@@ -1,9 +1,5 @@
 name: Build & Push Docker Main
 
-permissions:
-  contents: read
-  packages: write
-
 on:
   push:
     branches:
