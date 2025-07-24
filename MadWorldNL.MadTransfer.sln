@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{DA5B1CA7-5
 	ProjectSection(SolutionItems) = preProject
 		docs\database.md = docs\database.md
 		docs\authentication-server.md = docs\authentication-server.md
+		docs\kubernetes.md = docs\kubernetes.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "git", "git", "{663D0744-4242-4DD1-B8E7-6FF65A6594D7}"

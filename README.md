@@ -8,7 +8,7 @@ This is a lightweight file sharing platform that allows anyone to upload a file 
 
 ## Install guide
 Run the app using Docker Compose from the root of this repository:
-```shell
+```bash
 docker compose --env-file docker-compose.env up --build --force-recreate
 ```
 
