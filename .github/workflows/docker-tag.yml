@@ -1,4 +1,4 @@
-name: Build & Push Docker Compose Services Tag
+name: Build & Push Docker Tag
 
 on:
   push:
