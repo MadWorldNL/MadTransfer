@@ -34,13 +34,13 @@ jobs:
       - name: Build services on linux/amd64
         run: docker compose -f docker-compose.yml --env-file docker-compose-latest.env build --build-arg BUILDPLATFORM=linux/amd64 api web
 
-      - name: Build services on linux/arm64
-        run: docker compose -f docker-compose.yml --env-file docker-compose-latest.env build --build-arg BUILDPLATFORM=linux/arm64 api web
-          
       - name: Push services for linux/amd64
         run: |
           docker push --platform linux/amd64 ghcr.io/madworldnl/mad-transfer-api
           docker push --platform linux/amd64 ghcr.io/madworldnl/mad-transfer-web
+
+      - name: Build services on linux/arm64
+        run: docker compose -f docker-compose.yml --env-file docker-compose-latest.env build --build-arg BUILDPLATFORM=linux/arm64 api web
           
       - name: Push services for linux/arm64
         run: |
