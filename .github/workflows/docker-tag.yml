@@ -1,0 +1,36 @@
+name: Build & Push Docker Compose Services
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  docker-compose-build-push:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Compose
+        uses: docker/setup-compose-action@v1
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.GHCR_USERNAME }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
+      - name: Build services
+        run: |
+          docker compose -f docker-compose.yml --env-file docker-compose-tag.env build --build-arg BUILDPLATFORM=linux/amd64 api web
+          docker compose -f docker-compose.yml --env-file docker-compose-tag.env build --build-arg BUILDPLATFORM=linux/arm64 api web
+
+      - name: Push services
+        run: |
+          docker push --platform linux/amd64 ghcr.io/madworldnl/mad-transfer-api
+          docker push --platform linux/amd64 ghcr.io/madworldnl/mad-transfer-web
+          docker push --platform linux/arm64 ghcr.io/madworldnl/mad-transfer-api
+          docker push --platform linux/arm64 ghcr.io/madworldnl/mad-transfer-web

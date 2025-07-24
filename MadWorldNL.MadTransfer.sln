@@ -23,7 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution", "solution", "{38
 		Directory.Build.props = Directory.Build.props
 		Directory.Packages.props = Directory.Packages.props
 		docker-compose.yml = docker-compose.yml
-		docker-compose.env = docker-compose.env
+		docker-compose-latest.env = docker-compose-latest.env
+		docker-compose-tag.env = docker-compose-tag.env
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "src\MadWorldNL.MadTransfer.Controllers.Api\Api.csproj", "{3587E2CA-6929-4E0A-B998-669FFD397837}"
@@ -51,6 +52,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "packages", "packages", "{A3
 		packages\README.md = packages\README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{941B9D4E-8D59-47D3-8B3F-F47EB6984EC7}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\docker-main.yml = .github\workflows\docker-main.yml
+		.github\workflows\docker-tag.yml = .github\workflows\docker-tag.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +75,7 @@ Global
 		{857FFFCA-7DDB-4109-9E62-20A20E02EB5C} = {22F88AC0-EB10-4111-92F1-864AA0BF0D49}
 		{6508350C-B366-47CE-B7DF-7AED1B8C9E04} = {5758F264-35F0-4B08-A004-F29341DDFA2D}
 		{A3894864-3880-4D38-A013-CCD976932A88} = {663D0744-4242-4DD1-B8E7-6FF65A6594D7}
+		{941B9D4E-8D59-47D3-8B3F-F47EB6984EC7} = {38099395-FE17-49AF-BFA3-429EC42C745F}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{3587E2CA-6929-4E0A-B998-669FFD397837}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
