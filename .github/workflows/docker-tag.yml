@@ -32,7 +32,7 @@ jobs:
           password: ${{ secrets.GHCR_TOKEN }}
 
       - name: Build & push service api
-        run: docker buildx build --platform linux/amd64,linux/arm64 -f src/MadWorldNL.MadTransfer.Controllers.Api/Dockerfile --tag ghcr.io/madworldnl/mad-transfer-api:latest --push .
+        run: docker buildx build --platform linux/amd64,linux/arm64 -f src/MadWorldNL.MadTransfer.Controllers.Api/Dockerfile --tag ghcr.io/madworldnl/mad-transfer-api:$GITHUB_REF_NAME --push .
 
       - name: Build & push service web
-        run: docker buildx build --platform linux/amd64,linux/arm64 -f src/MadWorldNL.MadTransfer.Controllers.Web/Dockerfile --tag ghcr.io/madworldnl/mad-transfer-web:latest --push .
+        run: docker buildx build --platform linux/amd64,linux/arm64 -f src/MadWorldNL.MadTransfer.Controllers.Web/Dockerfile --tag ghcr.io/madworldnl/mad-transfer-web:$GITHUB_REF_NAME --push .
