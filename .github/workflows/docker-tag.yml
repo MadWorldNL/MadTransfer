@@ -1,4 +1,8 @@
-name: Build & Push Docker Compose Services
+name: Build & Push Docker Compose Services Tag
+
+permissions:
+  contents: read
+  packages: write
 
 on:
   push:
