@@ -1,4 +1,4 @@
-# docker compose --env-file docker-compose.env up --build --force-recreate
+# docker compose --env-file docker-compose-latest.env up --build --force-recreate
 name: mad-transfer
 services:
   api:
