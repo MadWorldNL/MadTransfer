@@ -55,6 +55,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\docker-main.yml = .github\workflows\docker-main.yml
 		.github\workflows\docker-tag.yml = .github\workflows\docker-tag.yml
+		.github\workflows\dotnet-ci.yml = .github\workflows\dotnet-ci.yml
 	EndProjectSection
 EndProject
 Global
