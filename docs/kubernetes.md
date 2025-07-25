@@ -26,7 +26,7 @@ kubectl apply -f dashboard-admin-user.yml
 
 Generate a login token for accessing the dashboard and copy to your clipboard:
 ```bash
-kubectl -n kubernetes-dashboard create token admin-user
+kubectl -n kubernetes-dashboard create token admin-user --duration=12h
 ```
 First, find the name of the dashboard pod:
 ```bash
