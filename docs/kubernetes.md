@@ -45,5 +45,49 @@ kubectl port-forward kubernetes-dashboard-xxxxxxxxxx-xxxxx 8443:8443 -n kubernet
 
 Now open your browser and visit: https://localhost:8443/. Ignore any browser warnings about self-signed certificates and proceed.
 
-### Deploy Mad Transfer
-*TODO*
+## Production
+### Install on production
+#### Step 1: Install MicroK8s
+Execute this install command:
+```shell
+sudo snap install microk8s --classic
+sudo microk8s status --wait-ready
+```
+
+#### Step 2: Enable services
+Required:
+```shell
+sudo microk8s enable dns
+sudo microk8s enable helm
+sudo microk8s enable dashboard
+sudo microk8s enable ingress
+sudo microk8s enable cert-manager
+sudo microk8s enable hostpath-storage
+```
+
+Optional:
+```shell
+sudo microk8s enable metrics-server
+sudo microk8s enable prometheus
+```
+
+### Usage on production
+#### Step 1 - Download source code
+```shell
+git clone https://github.com/MadWorldNL/MadTransfer
+```
+
+#### Step 2 - Install Cluster
+Navigate to the folder `deployment/MadTransfer` and execute this command:
+```shell
+microk8s helm install -f environments/values-production.yaml mad-transfer .
+```
+
+#### Step 3 - Status of Cluster
+Convenient tools for debugging Kubernetes:
+```shell
+microk8s dashboard-proxy --address 0.0.0.0
+```
+
+### Reference
+[MicroK8s install guide](https://microk8s.io/)
