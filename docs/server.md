@@ -9,6 +9,13 @@ sudo apt update
 sudo apt upgrade
 ```
 
+### Install tools
+Install useful networking tools:
+```shell
+# Install net-tools to use ifconfig for checking your IP address
+sudo apt install net-tools
+```
+
 ### Install VPN provider
 See [install guide](https://www.cyberciti.biz/faq/howto-setup-openvpn-server-on-ubuntu-linux-14-04-or-16-04-lts/) of OpenVPN
 
