@@ -5,10 +5,14 @@ using MadWorldNL.MadTransfer.Endpoints;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 
 const string allowedCors = nameof(allowedCors);
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, configuration) =>
+    configuration.ReadFrom.Configuration(context.Configuration));
 
 var authenticationSettings = builder.Configuration
     .GetRequiredSection(AuthenticationSettings.Key)
