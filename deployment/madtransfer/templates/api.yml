@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.madtransfer.api.deployment }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.madtransfer.api.app }}
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: {{ .Values.madtransfer.api.app }}
+      task: {{ .Values.madtransfer.api.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.madtransfer.api.app }}
+        task: {{ .Values.madtransfer.api.name }}
+    spec:
+      containers:
+        - name: {{ .Values.madtransfer.api.name }}
+          image: {{ .Values.madtransfer.api.image }}:{{ .Values.image.tag }}
+          env:
+            - name: Database__Host
+              value: "postgres-rw"
+            - name: Database__Port
+              value: "5432"
+            - name: Database__DbName
+              value: {{ .Values.database.dbName }}
+            - name: Database__User
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.database.secret.name }}
+                  key: username
+            - name: Database__Password
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.database.secret.name }}
+                  key: password
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.madtransfer.api.loadBalancer }}
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: {{ .Values.madtransfer.api.app }}
+    task: {{ .Values.madtransfer.api.name }}
+  ports:
+    - protocol: TCP
+      name: http
+      port: 8080
+      targetPort: 8080
+  type: LoadBalancer
+  

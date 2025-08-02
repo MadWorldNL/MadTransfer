@@ -8,5 +8,7 @@ internal static class DebugEndpoints
             .DisableAntiforgery();
 
         endpoints.MapGet("/Authorization", () => Results.Ok("OK")).RequireAuthorization();
+
+        endpoints.MapGet("/Anonymous", () => Results.Ok("OK"));
     }
 }

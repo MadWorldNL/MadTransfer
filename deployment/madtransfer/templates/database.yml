@@ -1,13 +1,41 @@
+{{- $postgresSecrets := (lookup "v1" "Secret" .Values.namespace .Values.database.secret.name ) -}}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Values.database.secret.name }}
+  namespace: {{ .Values.namespace }}
+type: kubernetes.io/basic-auth
+data:
+  username: {{ .Values.database.username | b64enc }}
+{{- if and $postgresSecrets $postgresSecrets.data }}
+  {{- if $postgresSecrets.data.password }}
+  password: {{ $postgresSecrets.data.password }}
+  {{- else }}
+  password: {{ .Values.database.password | b64enc }}
+  {{- end }}
+{{- else }}
+  password: {{ .Values.database.password | b64enc }}
+{{- end }}
+---
+{{- if .Values.database.enabled }}
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: database
+  name: {{ .Values.database.name }}
   namespace: {{ .Values.namespace }}
 spec:
   instances: 3
+  primaryUpdateStrategy: unsupervised
+  bootstrap:
+    initdb:
+      database: {{ .Values.database.dbName }}
+      owner: app
+      secret:
+        name: postgres-secret
   storage:
-    storageClass: local-path
-    size: 1Gi
+    storageClass: {{ .Values.database.storageclass }}
+    size: {{ .Values.database.size.single }}
     storageRetentionPolicy:
       whenDeleted: retain
       whenScaled: retain
+{{ end }}
