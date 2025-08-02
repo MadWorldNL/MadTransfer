@@ -77,13 +77,25 @@ sudo microk8s enable prometheus
 git clone https://github.com/MadWorldNL/MadTransfer
 ```
 
-#### Step 2 - Install Cluster
+#### Step 2 - Install Cloud Native PG Operator
+You can install the latest operator manifest for this minor release as follows:
+```shell
+kubectl apply --server-side -f \
+  https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/release-1.26/releases/cnpg-1.26.1.yaml
+```
+
+#### Step 3 - Install Storage
+```shell
+kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml
+```
+
+#### Step 4 - Install Cluster
 Navigate to the folder `deployment/MadTransfer` and execute this command:
 ```shell
 microk8s helm install -f environments/values-production.yaml mad-transfer .
 ```
 
-#### Step 3 - Status of Cluster
+#### Step 5 - Status of Cluster
 Convenient tools for debugging Kubernetes:
 ```shell
 microk8s dashboard-proxy --address 0.0.0.0
