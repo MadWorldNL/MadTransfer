@@ -55,9 +55,13 @@ builder.Services.AddHealthChecks();
 
 builder.Services.AddAntiforgery();
 
+var databaseSettings = builder.Configuration
+    .GetRequiredSection(DatabaseSettings.Key)
+    .Get<DatabaseSettings>()!;
+
 builder.Services.AddDbContextPool<MadTransferContext>(opt =>
     opt.UseNpgsql(
-        builder.Configuration.GetConnectionString("MadTransferContext"),
+        databaseSettings.ConnectionString,
         o => o
             .SetPostgresVersion(17, 0)
             .UseNodaTime()));

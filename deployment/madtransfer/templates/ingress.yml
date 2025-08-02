@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  namespace: {{ .Values.namespace }}
+  annotations:
+    cert-manager.io/cluster-issuer: "lets-encrypt"
+    cert-manager.io/common-name: {{ .Values.madtransfer.api.host }}
+    cert-manager.io/subject-countries: {{ .Values.certification.country }}
+spec:
+  {{- if .Values.clusterIssuer.enabled }}
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - {{ .Values.madtransfer.api.host }}
+      secretName: madworld-tls
+  {{ end }}
+  rules:
+    - host: {{ .Values.madtransfer.api.host }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.madtransfer.api.loadBalancer }}
+                port:
+                  number: 8080

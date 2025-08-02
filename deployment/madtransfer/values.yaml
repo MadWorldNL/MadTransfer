@@ -1,7 +1,7 @@
 namespace: madtransfer
 
 image:
-  tag: "v0.1.0"
+  tag: "v0.2.0"
 
 clusterIssuer:
   enabled: true
@@ -19,3 +19,16 @@ madtransfer:
     loadBalancer: "mad-transfer-api-load-balancer"
     image: "ghcr.io/madworldnl/mad-transfer-api"
     host: "transfer-api.mad-world.eu"
+    
+database:
+  enabled: true
+  name: postgres
+  dbName: MadTransfer
+  username: app
+  password: "nonExistingKey1234"
+  size:
+    single: 1Gi
+    combined: 4Gi
+  secret:
+    name: postgres-secret
+  storageclass: local-path
