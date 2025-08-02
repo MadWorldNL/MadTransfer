@@ -21,18 +21,18 @@ spec:
         - name: {{ .Values.madtransfer.api.name }}
           image: {{ .Values.madtransfer.api.image }}:{{ .Values.image.tag }}
           env:
-            - name: Database__Host
+            - name: DatabaseSettings__Host
               value: "postgres-rw"
-            - name: Database__Port
+            - name: DatabaseSettings__Port
               value: "5432"
-            - name: Database__DbName
+            - name: DatabaseSettings__DbName
               value: {{ .Values.database.dbName }}
-            - name: Database__User
+            - name: DatabaseSettings__User
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.database.secret.name }}
                   key: username
-            - name: Database__Password
+            - name: DatabaseSettings__Password
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.database.secret.name }}
