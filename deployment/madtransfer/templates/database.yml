@@ -35,7 +35,4 @@ spec:
   storage:
     storageClass: {{ .Values.database.storageclass }}
     size: {{ .Values.database.size.single }}
-    storageRetentionPolicy:
-      whenDeleted: retain
-      whenScaled: retain
 {{ end }}
