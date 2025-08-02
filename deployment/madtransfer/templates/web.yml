@@ -1,0 +1,86 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ .Values.madtransfer.web.app }}-appsettings-config"
+  namespace: {{ .Values.namespace }}
+data:
+  appsettings.json: |
+    {
+      "Local": {
+        "Authority": "https://idenity.mad-world.eu/realms/madworld/",
+        "ClientId": "mad-transfer-web",
+        "ResponseType": "code"
+      },
+      "Api": {
+        "Url": "https://{{ .Values.madtransfer.api.host }}/"
+      }
+    }
+    
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.madtransfer.web.deployment }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.madtransfer.api.app }}
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: {{ .Values.madtransfer.web.app }}
+      task: {{ .Values.madtransfer.web.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.madtransfer.web.app }}
+        task: {{ .Values.madtransfer.web.name }}
+    spec:
+      containers:
+        - name: {{ .Values.madtransfer.web.name }}
+          image: {{ .Values.madtransfer.web.image }}:{{ .Values.image.tag }}
+          env:
+            - name: DatabaseSettings__Host
+              value: "postgres-rw"
+            - name: DatabaseSettings__Port
+              value: "5432"
+            - name: DatabaseSettings__DbName
+              value: {{ .Values.database.dbName }}
+            - name: DatabaseSettings__User
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.database.secret.name }}
+                  key: username
+            - name: DatabaseSettings__Password
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.database.secret.name }}
+                  key: password
+          volumeMounts:
+            - name: "{{ .Values.madtransfer.web.app }}-appsettings-config-volume"
+              mountPath: /usr/share/nginx/html/appsettings.json
+              subPath: appsettings.json
+              readOnly: true
+          ports:
+            - containerPort: 8080
+      volumes:
+        - name: "{{ .Values.madtransfer.web.app }}-appsettings-config-volume"
+          configMap:
+            name: "{{ .Values.madtransfer.web.app }}-appsettings-config"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.madtransfer.web.loadBalancer }}
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: {{ .Values.madtransfer.web.app }}
+    task: {{ .Values.madtransfer.web.name }}
+  ports:
+    - protocol: TCP
+      name: http
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
+  
