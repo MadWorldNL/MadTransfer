@@ -1,0 +1,11 @@
+namespace: madtransfer-development
+
+image:
+  tag: "v0.1.0"
+
+clusterIssuer:
+  enabled: false
+
+madtransfer:
+  api:
+    host: "transfer-api.mad-world.local"

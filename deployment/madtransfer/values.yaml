@@ -1,1 +1,21 @@
-namespace: madtransfer-development
+namespace: madtransfer
+
+image:
+  tag: "v0.1.0"
+
+clusterIssuer:
+  enabled: true
+
+certification:
+  email: "oveldman@gmail.com"
+  commonDomain: "www.mad-world.eu"
+  country: "NL"
+
+madtransfer:
+  api:
+    deployment: "mad-transfer-api-deployment"
+    app: "mad-transfer-api"
+    name: "mad-transfer-api"
+    loadBalancer: "mad-transfer-api-load-balancer"
+    image: "ghcr.io/madworldnl/mad-transfer-api"
+    host: "transfer-api.mad-world.eu"
