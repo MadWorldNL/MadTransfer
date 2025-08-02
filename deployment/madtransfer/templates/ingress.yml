@@ -5,14 +5,16 @@ metadata:
   namespace: {{ .Values.namespace }}
   annotations:
     cert-manager.io/cluster-issuer: "lets-encrypt"
-    cert-manager.io/common-name: {{ .Values.madtransfer.api.host }}
+    cert-manager.io/common-name: {{ .Values.certification.commonDomain }}
     cert-manager.io/subject-countries: {{ .Values.certification.country }}
 spec:
   {{- if .Values.clusterIssuer.enabled }}
   ingressClassName: nginx
   tls:
     - hosts:
+        - {{ .Values.certification.commonDomain }}
         - {{ .Values.madtransfer.api.host }}
+        - {{ .Values.madtransfer.web.host }}
       secretName: madworld-tls
   {{ end }}
   rules:
@@ -26,3 +28,23 @@ spec:
                 name: {{ .Values.madtransfer.api.loadBalancer }}
                 port:
                   number: 8080
+    - host: {{ .Values.madtransfer.web.host }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.madtransfer.web.loadBalancer }}
+                port:
+                  number: 80
+    - host: {{ .Values.certification.commonDomain }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.madtransfer.web.loadBalancer }}
+                port:
+                  number: 80

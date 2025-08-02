@@ -26,3 +26,5 @@ LABEL org.opencontainers.image.source="https://github.com/MadWorldNL/MadTransfer
 
 COPY --from=publish /app/publish/wwwroot /usr/share/nginx/html
 COPY ["src/MadWorldNL.MadTransfer.Controllers.Web/Configs/nginx/default.conf", "/etc/nginx/conf.d/"]
+RUN rm /usr/share/nginx/html/appsettings.json.br
+RUN rm /usr/share/nginx/html/appsettings.json.gz
