@@ -2,8 +2,12 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: database
+  namespace: {{ .Values.namespace }}
 spec:
   instances: 3
-
   storage:
+    storageClass: local-path
     size: 1Gi
+    storageRetentionPolicy:
+      whenDeleted: retain
+      whenScaled: retain
