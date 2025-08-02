@@ -20,6 +20,14 @@ madtransfer:
     image: "ghcr.io/madworldnl/mad-transfer-api"
     host: "transfer-api.mad-world.eu"
     
+  web:
+    deployment: "mad-transfer-web-deployment"
+    app: "mad-transfer-web"
+    name: "mad-transfer-web"
+    loadBalancer: "mad-transfer-web-load-balancer"
+    image: "ghcr.io/madworldnl/mad-transfer-web"
+    host: "transfer.mad-world.eu"
+    
 database:
   enabled: true
   name: postgres
