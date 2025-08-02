@@ -77,6 +77,13 @@ sudo microk8s enable prometheus
 git clone https://github.com/MadWorldNL/MadTransfer
 ```
 
+#### Step 2 - Install Cloud Native PG Operator
+You can install the latest operator manifest for this minor release as follows:
+```shell
+kubectl apply --server-side -f \
+  https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/release-1.26/releases/cnpg-1.26.1.yaml
+```
+
 #### Step 2 - Install Cluster
 Navigate to the folder `deployment/MadTransfer` and execute this command:
 ```shell
