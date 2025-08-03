@@ -24,7 +24,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.Authority = authenticationSettings.Authority; // Keycloak realm URL
-        options.Audience = authenticationSettings.Authority; // Match the "Client ID" of your Keycloak client
+        options.Audience = authenticationSettings.Audience; // Match the "Client ID" of your Keycloak client
         options.RequireHttpsMetadata = false; // Only for dev/local
 
         options.TokenValidationParameters = new TokenValidationParameters
