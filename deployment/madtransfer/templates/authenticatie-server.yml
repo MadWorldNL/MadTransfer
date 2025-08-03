@@ -36,6 +36,7 @@ apiVersion: apps/v1
 # This prevents losing in-memory information stored redundantly in two Pods.
 kind: StatefulSet
 metadata:
+  namespace: {{ .Values.namespace }}
   name: keycloak
   labels:
     app: keycloak
