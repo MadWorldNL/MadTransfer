@@ -7,7 +7,7 @@ data:
   appsettings.json: |
     {
       "Local": {
-        "Authority": "https://idenity.mad-world.eu/realms/madworld/",
+        "Authority": "https://{{ .Values.keycloak.host }}/realms/madworld/",
         "ClientId": "mad-transfer-web",
         "ResponseType": "code"
       },

@@ -21,6 +21,8 @@ spec:
         - name: {{ .Values.madtransfer.api.name }}
           image: {{ .Values.madtransfer.api.image }}:{{ .Values.image.tag }}
           env:
+            - name: Authentication__Authority
+              value: https://{{ .Values.keycloak.host }}/realms/madworld
             - name: DatabaseSettings__Host
               value: {{ .Values.database.connection.readwrite }}
             - name: DatabaseSettings__Port
