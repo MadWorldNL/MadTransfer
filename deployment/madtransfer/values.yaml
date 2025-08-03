@@ -40,3 +40,10 @@ database:
   secret:
     name: postgres-secret
   storageclass: local-path
+  connection:
+    readwrite: "postgres-rw"
+    read: "postgres-r"
+    
+keycloak:
+  loadBalancer: "keycloak"
+  host: "identity.mad-world.eu"
