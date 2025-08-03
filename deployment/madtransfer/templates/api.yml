@@ -22,7 +22,7 @@ spec:
           image: {{ .Values.madtransfer.api.image }}:{{ .Values.image.tag }}
           env:
             - name: DatabaseSettings__Host
-              value: "postgres-rw"
+              value: {{ .Values.database.connection.readwrite }}
             - name: DatabaseSettings__Port
               value: "5432"
             - name: DatabaseSettings__DbName
