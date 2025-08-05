@@ -3,5 +3,9 @@
     <PropertyGroup>
         <AssemblyName>$(RootNamespace).Domains.Abstractions</AssemblyName>
     </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="NodaTime" />
+    </ItemGroup>
     
 </Project>

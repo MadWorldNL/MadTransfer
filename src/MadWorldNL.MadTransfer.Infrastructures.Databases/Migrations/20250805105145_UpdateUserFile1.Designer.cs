@@ -3,6 +3,7 @@ using System;
 using MadWorldNL.MadTransfer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NodaTime;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MadWorldNL.MadTransfer.Migrations
 {
     [DbContext(typeof(MadTransferContext))]
-    partial class MadTransferContextModelSnapshot : ModelSnapshot
+    [Migration("20250805105145_UpdateUserFile1")]
+    partial class UpdateUserFile1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
