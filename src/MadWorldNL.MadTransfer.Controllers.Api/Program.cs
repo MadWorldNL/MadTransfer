@@ -2,6 +2,7 @@ using MadWorldNL.MadTransfer;
 using MadWorldNL.MadTransfer.Configurations;
 using MadWorldNL.MadTransfer.Databases;
 using MadWorldNL.MadTransfer.Endpoints;
+using MadWorldNL.MadTransfer.Files.Upload;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -79,6 +80,9 @@ builder.Services.AddDbContextPool<MadTransferContext>(opt =>
         o => o
             .SetPostgresVersion(17, 0)
             .UseNodaTime()));
+
+// TODO: Move usecases
+builder.Services.AddScoped<UploadUserFileUseCase>();
 
 var app = builder.Build();
 
