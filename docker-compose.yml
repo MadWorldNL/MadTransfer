@@ -76,6 +76,13 @@ services:
       - postgres
     volumes:
       - pgadmin-data:/var/lib/pgadmin
+  storage-server:
+    image: scireum/s3-ninja:8.5.0
+    container_name: storage-server
+    ports:
+      - "9444:9000"
+    volumes:
+      - storage-data:/home/sirius/data
   authentication-server:
     image: quay.io/keycloak/keycloak:26.3.2
     container_name: keycloak
@@ -91,6 +98,7 @@ volumes:
   postgres-data:
   pgadmin-data:
   keycloak-data:
+  storage-data:
 networks:
   api:
   postgres:
