@@ -15,29 +15,29 @@ internal static class FileEndpoints
             .DisableAntiforgery();
 
         endpoints.MapPost("/Upload",
-                ([FromForm] UploadRequest request,
-                    HttpContext httpContext,
-                    [FromServices] UploadUserFileUseCase useCase) =>
+            ([FromForm] UploadRequest request,
+                HttpContext httpContext,
+                [FromServices] UploadUserFileUseCase useCase) =>
+            {
+                var userId = httpContext.User.GetUserId();
+
+                var command = new UploadUserFileCommand()
                 {
-                    var userId = httpContext.User.GetUserId();
-
-                    var command = new UploadUserFileCommand()
+                    File = new UserFileDto()
                     {
-                        File = new UserFileDto()
-                        {
-                            Name = request.File.FileName,
-                            ByteSize = request.File.Length,
-                            Body = request.File.OpenReadStream()
-                        },
-                        UserId = userId
-                    };
+                        Name = request.File.FileName,
+                        ByteSize = request.File.Length,
+                        Body = request.File.OpenReadStream()
+                    },
+                    UserId = userId
+                };
 
-                    var result = useCase.Upload(command);
+                var result = useCase.Upload(command);
 
-                    return Results.Ok(new UploadResponse()
-                    {
-                        DownloadUrl = result.Url
-                    });
-                }).RequireAuthorization();
+                return Results.Ok(new UploadResponse()
+                {
+                    DownloadUrl = result.Url
+                });
+            }); //.RequireAuthorization();
     }
 }
