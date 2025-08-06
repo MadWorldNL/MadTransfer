@@ -15,7 +15,7 @@ internal static class FileEndpoints
             .DisableAntiforgery();
 
         endpoints.MapPost("/Upload",
-            ([FromForm] UploadRequest request,
+            async ([FromForm] UploadRequest request,
                 HttpContext httpContext,
                 [FromServices] UploadUserFileUseCase useCase) =>
             {
@@ -32,7 +32,7 @@ internal static class FileEndpoints
                     UserId = userId
                 };
 
-                var result = useCase.Upload(command);
+                var result = await useCase.Upload(command);
 
                 return Results.Ok(new UploadResponse()
                 {

@@ -11,25 +11,34 @@ public class FileStorage : IFileStorage
     {
         var config = new AmazonS3Config
         {
-            ServiceURL = "http://localhost:9444",
-            ForcePathStyle = true // Important for S3-compatible storage!
+            ServiceURL = "",//"http://localhost:9444",
+            ForcePathStyle = true, // Important for S3-compatible storage!
         };
-        var client = new AmazonS3Client(new BasicAWSCredentials("AKIAIOSFODNN7EXAMPLE", "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"), config);
+        //var client = new AmazonS3Client(new BasicAWSCredentials("AKIAIOSFODNN7EXAMPLE", "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"), config);
+        var client = new AmazonS3Client(new BasicAWSCredentials("", ""), config);      
         
         stream.Position = 0;
-        var putRequest = new PutObjectRequest
+
+        var putRequest = new PutObjectRequest()
         {
-            BucketName = path.Value,
-            Key = metaData.InternalName,
+            BucketName = "madtransfer-development",
+            Key = $"{path.Value}/{metaData.InternalName}",
             InputStream = stream,
             ContentType = "application/octet-stream"
         };
-        
-        var response = await client.PutObjectAsync(putRequest);
 
-        if (response.HttpStatusCode == HttpStatusCode.OK)
+        try
         {
-            return;  // Return the key to access the file.
+            var response = await client.PutObjectAsync(putRequest);
+
+            if (response.HttpStatusCode == HttpStatusCode.OK)
+            {
+                return; // Return the key to access the file.
+            }
+        }
+        catch (Exception ex)
+        {
+            _ = ex;
         }
         
         throw new NotImplementedException();
