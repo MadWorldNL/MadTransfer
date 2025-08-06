@@ -50,8 +50,8 @@ namespace MadWorldNL.MadTransfer.Migrations
                             b1.Property<Guid>("UserFileId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<int>("ByteSize")
-                                .HasColumnType("integer")
+                            b1.Property<long>("ByteSize")
+                                .HasColumnType("bigint")
                                 .HasColumnName("FileByteSize");
 
                             b1.Property<string>("Extension")

@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MadWorldNL.MadTransfer.Migrations
 {
     [DbContext(typeof(MadTransferContext))]
-    [Migration("20250805105145_UpdateUserFile1")]
-    partial class UpdateUserFile1
+    [Migration("20250806193240_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,8 +53,8 @@ namespace MadWorldNL.MadTransfer.Migrations
                             b1.Property<Guid>("UserFileId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<int>("ByteSize")
-                                .HasColumnType("integer")
+                            b1.Property<long>("ByteSize")
+                                .HasColumnType("bigint")
                                 .HasColumnName("FileByteSize");
 
                             b1.Property<string>("Extension")

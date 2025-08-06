@@ -7,13 +7,13 @@ public class FileMetaData : ValueObject
     public string Name { get; init; } = null!;
     public string InternalName { get; init; } = null!;
     public string Extension { get; init; } = null!;
-    public int ByteSize { get; init; }
+    public long ByteSize { get; init; }
 
     private FileMetaData()
     {
     }
     
-    private FileMetaData(string name, string internalName, string extension, int byteSize)
+    private FileMetaData(string name, string internalName, string extension, long byteSize)
     {
         Name = name;
         InternalName = internalName;
@@ -21,7 +21,7 @@ public class FileMetaData : ValueObject
         ByteSize = byteSize;
     }
     
-    public static FileMetaData Create(string name, string internalName, string extension, int byteSize)
+    public static FileMetaData Create(string name, string internalName, string extension, long byteSize)
     {
         return new FileMetaData(name, internalName,extension, byteSize);
     }
