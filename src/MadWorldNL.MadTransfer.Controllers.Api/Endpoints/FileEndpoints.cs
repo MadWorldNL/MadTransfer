@@ -38,6 +38,6 @@ internal static class FileEndpoints
                 {
                     DownloadUrl = result.Url
                 });
-            }); //.RequireAuthorization();
+            }).RequireAuthorization();
     }
 }
