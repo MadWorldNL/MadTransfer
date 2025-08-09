@@ -1,3 +1,3 @@
 namespace MadWorldNL.MadTransfer.Files;
 
-public record FilePath(string Value);
+public sealed record FilePath(string Value);

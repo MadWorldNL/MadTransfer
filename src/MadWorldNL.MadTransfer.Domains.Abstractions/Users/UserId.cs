@@ -1,3 +1,3 @@
 namespace MadWorldNL.MadTransfer.Users;
 
-public record UserId(Guid Id);
+public sealed record UserId(Guid Id); 

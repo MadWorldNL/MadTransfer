@@ -1,6 +1,6 @@
 namespace MadWorldNL.MadTransfer.Files.Upload;
 
-public class UserFileDto
+public sealed class UserFileDto
 {
     public required string Name { get; init; }
     public required long ByteSize { get; init; }

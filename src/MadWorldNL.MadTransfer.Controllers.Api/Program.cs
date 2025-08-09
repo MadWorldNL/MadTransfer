@@ -82,6 +82,9 @@ builder.Services.AddDbContextPool<MadTransferContext>(opt =>
             .SetPostgresVersion(17, 0)
             .UseNodaTime()));
 
+builder.Services.Configure<StorageSettings>(
+    builder.Configuration.GetSection(StorageSettings.Key));
+
 // TODO: Move use-cases
 builder.Services.AddScoped<UploadUserFileUseCase>();
 

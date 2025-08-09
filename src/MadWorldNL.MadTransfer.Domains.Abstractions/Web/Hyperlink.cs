@@ -2,7 +2,7 @@ using MadWorldNL.MadTransfer.Primitives;
 
 namespace MadWorldNL.MadTransfer.Web;
 
-public class Hyperlink : ValueObject
+public sealed class Hyperlink : ValueObject
 {
     public string Value { get; init; } = null!;
 

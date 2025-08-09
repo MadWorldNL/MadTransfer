@@ -1,6 +1,6 @@
 namespace MadWorldNL.MadTransfer.Files;
 
-public class FileRepository : IFileRepository
+public sealed class FileRepository : IFileRepository
 {
     public void Add(UserFile userFile)
     {

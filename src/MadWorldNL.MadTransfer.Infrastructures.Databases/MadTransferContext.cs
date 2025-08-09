@@ -3,7 +3,7 @@ using MadWorldNL.MadTransfer.Files;
 
 namespace MadWorldNL.MadTransfer;
 
-public class MadTransferContext(DbContextOptions<MadTransferContext> options) : DbContext(options)
+public sealed class MadTransferContext(DbContextOptions<MadTransferContext> options) : DbContext(options)
 {
     public DbSet<UserFile> Files { get; set; } = null!;
     

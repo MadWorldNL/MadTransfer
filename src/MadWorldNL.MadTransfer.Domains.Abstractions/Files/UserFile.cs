@@ -4,7 +4,7 @@ using NodaTime;
 
 namespace MadWorldNL.MadTransfer.Files;
 
-public class UserFile
+public sealed class UserFile
 {
     public FileId Id { get; init; } = null!;
     public FileMetaData MetaData { get; init; } = null!;

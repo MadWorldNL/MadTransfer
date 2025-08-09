@@ -1,6 +1,6 @@
 namespace MadWorldNL.MadTransfer.Files.Upload;
 
-public class UploadUserFileResult
+public sealed class UploadUserFileResult
 {
     public required string Url { get; set; }
 }

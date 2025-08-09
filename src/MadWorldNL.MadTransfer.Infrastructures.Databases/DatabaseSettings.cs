@@ -1,6 +1,6 @@
 namespace MadWorldNL.MadTransfer;
 
-public class DatabaseSettings
+public sealed class DatabaseSettings
 {
     public const string Key = nameof(DatabaseSettings);
     

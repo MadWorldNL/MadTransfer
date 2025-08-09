@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MadWorldNL.MadTransfer.Files;
 
-public class UserFileEntityTypeConfiguration : IEntityTypeConfiguration<UserFile>
+public sealed class UserFileEntityTypeConfiguration : IEntityTypeConfiguration<UserFile>
 {
     public void Configure(EntityTypeBuilder<UserFile> builder)
     {

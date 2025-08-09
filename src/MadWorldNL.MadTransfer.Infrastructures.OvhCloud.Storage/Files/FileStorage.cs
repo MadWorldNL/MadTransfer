@@ -2,26 +2,22 @@ using System.Net;
 using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.S3.Model;
+using Microsoft.Extensions.Options;
 
 namespace MadWorldNL.MadTransfer.Files;
 
-public class FileStorage : IFileStorage
+public sealed class FileStorage(IOptions<StorageSettings> settings) : IFileStorage
 {
+    private readonly StorageSettings _settings = settings.Value;
+    private readonly AmazonS3Client _client = GetClient(settings.Value);
+
     public async Task Upload(FileMetaData metaData, FilePath path, Stream stream)
     {
-        var config = new AmazonS3Config
-        {
-            ServiceURL = "",//"http://localhost:9444",
-            ForcePathStyle = true, // Important for S3-compatible storage!
-        };
-        //var client = new AmazonS3Client(new BasicAWSCredentials("AKIAIOSFODNN7EXAMPLE", "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"), config);
-        var client = new AmazonS3Client(new BasicAWSCredentials("", ""), config);      
-        
         stream.Position = 0;
 
         var putRequest = new PutObjectRequest()
         {
-            BucketName = "madtransfer-development",
+            BucketName = _settings.BucketName,
             Key = $"{path.Value}/{metaData.InternalName}",
             InputStream = stream,
             ContentType = "application/octet-stream"
@@ -29,7 +25,7 @@ public class FileStorage : IFileStorage
 
         try
         {
-            var response = await client.PutObjectAsync(putRequest);
+            var response = await _client.PutObjectAsync(putRequest);
 
             if (response.HttpStatusCode == HttpStatusCode.OK)
             {
@@ -42,5 +38,16 @@ public class FileStorage : IFileStorage
         }
         
         throw new NotImplementedException();
+    }
+
+    private static AmazonS3Client GetClient(StorageSettings settings)
+    {
+        var config = new AmazonS3Config
+        {
+            ServiceURL = settings.Host,
+            ForcePathStyle = true
+        };
+
+        return new AmazonS3Client(new BasicAWSCredentials(settings.AccessKey, settings.SecretKey), config);  
     }
 }

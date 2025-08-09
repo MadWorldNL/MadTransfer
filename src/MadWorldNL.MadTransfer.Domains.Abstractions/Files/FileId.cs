@@ -1,6 +1,6 @@
 namespace MadWorldNL.MadTransfer.Files;
 
-public record FileId(Guid Id)
+public sealed record FileId(Guid Id)
 {
     public static FileId New()
     {

@@ -2,7 +2,7 @@ using MadWorldNL.MadTransfer.Primitives;
 
 namespace MadWorldNL.MadTransfer.Files;
 
-public class FileMetaData : ValueObject
+public sealed class FileMetaData : ValueObject
 {
     public string Name { get; init; } = null!;
     public string InternalName { get; init; } = null!;

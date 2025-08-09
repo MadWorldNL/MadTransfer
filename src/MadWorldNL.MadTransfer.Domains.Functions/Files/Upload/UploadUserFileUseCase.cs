@@ -3,7 +3,7 @@ using MadWorldNL.MadTransfer.Web;
 
 namespace MadWorldNL.MadTransfer.Files.Upload;
 
-public class UploadUserFileUseCase(IFileRepository fileRepository, IFileStorage fileStorage)
+public sealed class UploadUserFileUseCase(IFileRepository fileRepository, IFileStorage fileStorage)
 {
     private readonly FilePath _path = new("userfiles");
     
