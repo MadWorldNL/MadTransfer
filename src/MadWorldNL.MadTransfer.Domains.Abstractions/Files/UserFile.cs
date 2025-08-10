@@ -22,6 +22,10 @@ public sealed class UserFile
         CreatedAt = SystemClock.Instance.GetCurrentInstant();
     }
     
+    /// <summary>
+    /// Only used by entity framework
+    /// </summary>
+    [UsedImplicitly]
     private UserFile()
     {
     }

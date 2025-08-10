@@ -6,4 +6,8 @@
   <ItemGroup>
     <ProjectReference Include="..\MadWorldNL.MadTransfer.Domains.Abstractions\Abstractions.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="LanguageExt.Core" />
+  </ItemGroup>
 </Project>

@@ -65,6 +65,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "deployment", "deployment\de
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OvhCloud.Storage", "src\MadWorldNL.MadTransfer.Infrastructures.OvhCloud.Storage\OvhCloud.Storage.csproj", "{2B80327E-69AA-4925-A78E-18AE46DA004B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Controllers", "Controllers", "{576FFB4F-5ED3-4DD1-A73B-C389DDBE1447}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,6 +86,7 @@ Global
 		{941B9D4E-8D59-47D3-8B3F-F47EB6984EC7} = {38099395-FE17-49AF-BFA3-429EC42C745F}
 		{0298B72E-0952-4F3E-9148-A10828B34011} = {0D287A68-3F9F-4E8B-ADDF-B5FD51D6A643}
 		{2B80327E-69AA-4925-A78E-18AE46DA004B} = {22F88AC0-EB10-4111-92F1-864AA0BF0D49}
+		{576FFB4F-5ED3-4DD1-A73B-C389DDBE1447} = {4DBA1F89-75B4-49E2-B400-72C5BAF1700E}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{3587E2CA-6929-4E0A-B998-669FFD397837}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

@@ -2,5 +2,5 @@ namespace MadWorldNL.MadTransfer.Files;
 
 public interface IFileRepository
 {
-    void Add(UserFile userFile);
+    Task Add(UserFile userFile);
 }

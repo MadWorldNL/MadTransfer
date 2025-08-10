@@ -4,22 +4,21 @@ namespace MadWorldNL.MadTransfer.Files;
 
 public sealed class FileRepository(MadTransferContext context) : IFileRepository
 {
-    public void Add(UserFile userFile)
+    public async Task Add(UserFile userFile)
     {
         var fileFound = GetUserFile(userFile.Url);
 
-        if (fileFound != null)
+        if (fileFound.IsSome)
         {
-            // TODO: Add better exception
-            throw new Exception();
+            throw new DataBaseEntryDuplicatedException(nameof(UserFile), nameof(userFile.Url), userFile.Url.Value);
         }
         
-        context.Add(userFile);
-        context.SaveChanges();
+        await context.AddAsync(userFile);
+        await context.SaveChangesAsync();
     }
 
-    private UserFile? GetUserFile(Hyperlink url)
+    private Option<UserFile> GetUserFile(Hyperlink url)
     {
-        return context.Files.FirstOrDefault(f => f.Url.Equals(url));
+        return context.Files.Find(f => f.Url.Equals(url));
     }
 }

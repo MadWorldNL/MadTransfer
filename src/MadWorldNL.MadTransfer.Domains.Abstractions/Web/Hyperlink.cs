@@ -4,20 +4,19 @@ namespace MadWorldNL.MadTransfer.Web;
 
 public sealed class Hyperlink : ValueObject
 {
-    public string Value { get; init; } = null!;
+    public string Value { get; } = null!;
 
     private Hyperlink(string value)
     {
         Value = value;
     }
     
+    /// <summary>
+    /// Only used by entity framework
+    /// </summary>
+    [UsedImplicitly]
     private Hyperlink()
     {
-    }
-
-    public static Hyperlink Create(string? value)
-    {
-        return new Hyperlink(value!);
     }
     
     public static Hyperlink Create(Guid id)

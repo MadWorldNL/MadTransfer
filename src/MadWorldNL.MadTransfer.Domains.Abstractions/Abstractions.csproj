@@ -5,6 +5,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="JetBrains.Annotations" />
+      <PackageReference Include="LanguageExt.Core" />
       <PackageReference Include="NodaTime" />
     </ItemGroup>
     

@@ -1,6 +1,8 @@
 <Project>
   <ItemGroup>
     <PackageVersion Include="AWSSDK.S3" Version="4.0.6.3" />
+    <PackageVersion Include="JetBrains.Annotations" Version="2025.2.0" />
+    <PackageVersion Include="LanguageExt.Core" Version="4.4.9" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.7" />
     <PackageVersion Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4" />

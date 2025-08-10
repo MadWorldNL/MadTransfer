@@ -7,8 +7,6 @@ namespace MadWorldNL.MadTransfer.Endpoints;
 
 internal static class FileEndpoints
 {
-    // https://hub.docker.com/r/openstackswift/saio
-    
     internal static void AddFileEndpoints(this WebApplication app)
     {
         var endpoints = app.MapGroup("/File")
@@ -32,12 +30,15 @@ internal static class FileEndpoints
                     UserId = userId
                 };
 
-                var result = await useCase.Upload(command);
+                var uploadOutcome = await useCase.Upload(command);
 
-                return Results.Ok(new UploadResponse()
-                {
-                    DownloadUrl = result.Url
-                });
+                return uploadOutcome.Match(
+                    result => Results.Ok(new UploadResponse()
+                    {
+                        DownloadUrl = $"/File/Download/{result.Url}"
+                    }),
+                    error => Results.BadRequest()
+                );
             }).RequireAuthorization();
     }
 }
