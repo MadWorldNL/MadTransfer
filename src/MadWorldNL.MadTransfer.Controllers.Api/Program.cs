@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using JetBrains.Annotations;
 using MadWorldNL.MadTransfer;
 using MadWorldNL.MadTransfer.Configurations;
@@ -7,6 +8,7 @@ using MadWorldNL.MadTransfer.Files;
 using MadWorldNL.MadTransfer.Files.Upload;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
@@ -39,6 +41,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             NameClaimType = "preferred_username",
             RoleClaimType = "roles"
         };
+
+        if (!authenticationSettings.ValidateUser)
+        {
+            options.TokenValidationParameters.SignatureValidator = (token, parameters) =>
+            {
+                // Just return the token without validating signature
+                var handler = new JsonWebTokenHandler();
+                return handler.ReadJsonWebToken(token);
+            };
+        }
         
         options.Events = new JwtBearerEvents
         {

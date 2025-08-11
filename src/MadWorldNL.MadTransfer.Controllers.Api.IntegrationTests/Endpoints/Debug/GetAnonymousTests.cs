@@ -1,6 +1,3 @@
-using MadWorldNL.MadTransfer.Common;
-using Shouldly;
-
 namespace MadWorldNL.MadTransfer.Endpoints.Debug;
 
 public sealed class GetAnonymousTests(ApiWebApplicationFactory factory) : IClassFixture<ApiWebApplicationFactory>
