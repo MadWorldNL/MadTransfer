@@ -31,4 +31,8 @@
       <ProjectReference Include="..\MadWorldNL.MadTransfer.Infrastructures.OvhCloud.Storage\OvhCloud.Storage.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="Api.IntegrationTests" />
+    </ItemGroup>
+
 </Project>

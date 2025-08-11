@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using MadWorldNL.MadTransfer;
 using MadWorldNL.MadTransfer.Configurations;
 using MadWorldNL.MadTransfer.Databases;
@@ -114,3 +115,13 @@ app.AddDebugEndpoints();
 app.Services.MigrateDatabase<MadTransferContext>();
 
 app.Run();
+
+/// <summary>
+/// Exposes the application's entry point so that integration tests
+/// can create a <see cref="Microsoft.AspNetCore.Mvc.Testing.WebApplicationFactory{TEntryPoint}"/>
+/// using <see cref="Program"/> as the entry point type.
+/// </summary>
+[UsedImplicitly]
+public partial class Program
+{
+}
