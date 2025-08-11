@@ -44,6 +44,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
         if (!authenticationSettings.ValidateUser)
         {
+            Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
+            
             options.TokenValidationParameters.SignatureValidator = (token, parameters) =>
             {
                 // Just return the token without validating signature

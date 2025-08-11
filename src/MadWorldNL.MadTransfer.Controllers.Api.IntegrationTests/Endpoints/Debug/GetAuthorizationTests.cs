@@ -2,7 +2,7 @@ using System.Net.Http.Headers;
 
 namespace MadWorldNL.MadTransfer.Endpoints.Debug;
 
-public class GetAuthorizationTests(ApiWebApplicationFactory factory) : IClassFixture<ApiWebApplicationFactory>
+public sealed class GetAuthorizationTests(ApiWebApplicationFactory factory) : IClassFixture<ApiWebApplicationFactory>
 {
     [Fact]
     public async Task Get_WhenHasAuthorization_ReturnsOk()
