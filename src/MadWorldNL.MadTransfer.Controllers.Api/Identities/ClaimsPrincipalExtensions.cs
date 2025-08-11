@@ -10,7 +10,7 @@ internal static class ClaimsPrincipalExtensions
 
         if (!Guid.TryParse(identifier, out var id))
         {
-            // TODO: Throw exception
+            throw new UserIdNotValidException(identifier ?? "unknown");
         }
         
         return id;
