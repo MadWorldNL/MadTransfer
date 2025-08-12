@@ -18,7 +18,8 @@ services:
       retries: 3
       start_period: 40s
     environment:
-      - ConnectionStrings__MadTransferContext=Host=database;Port=5432;Database=MadTransfer;Username=postgres;Password=MadPassword1234!;Trust Server Certificate=true;
+      - DatabaseSettings__Host=database
+      - StorageSettings__Host=http://storage-server:9444
       - Authentication__Authority=http://host.docker.internal:5555/realms/madworld
       - Authentication__ValidateUser=false
     ports:
