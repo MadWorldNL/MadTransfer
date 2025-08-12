@@ -25,8 +25,8 @@ public sealed class PostUploadTests : IClassFixture<ApiWebApplicationFactory>
             .Authorization = new AuthenticationHeaderValue("Bearer", _factory.GetJwtToken());
         
         // Prepare file content (for example, from memory or disk)
-        var fileContent = new ByteArrayContent(System.Text.Encoding.UTF8.GetBytes("File content here"));
-        fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/plain");
+        var fileContent = new ByteArrayContent("File content here"u8.ToArray());
+        fileContent.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
 
         var multipartContent = new MultipartFormDataContent();
         multipartContent.Add(fileContent, "file", "testfile.txt");
