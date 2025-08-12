@@ -2,11 +2,12 @@ using System.Net;
 using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.S3.Model;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace MadWorldNL.MadTransfer.Files;
 
-public sealed class FileStorage(IOptions<StorageSettings> settings) : IFileStorage
+public sealed class FileStorage(IOptions<StorageSettings> settings, ILogger<FileStorage> logger) : IFileStorage
 {
     private readonly StorageSettings _settings = settings.Value;
     private readonly AmazonS3Client _client = GetClient(settings.Value);
@@ -32,12 +33,10 @@ public sealed class FileStorage(IOptions<StorageSettings> settings) : IFileStora
                 return; // Return the key to access the file.
             }
         }
-        catch (Exception ex)
+        catch (AmazonS3Exception exception)
         {
-            _ = ex;
+            logger.LogError(exception, "There was an error uploading the file");
         }
-        
-        throw new NotImplementedException();
     }
 
     private static AmazonS3Client GetClient(StorageSettings settings)

@@ -1,14 +1,17 @@
 using MadWorldNL.MadTransfer.Users;
 using MadWorldNL.MadTransfer.Web;
+using Microsoft.Extensions.Logging;
 
 namespace MadWorldNL.MadTransfer.Files.Upload;
 
-public sealed class UploadUserFileUseCase(IFileRepository fileRepository, IFileStorage fileStorage)
+public sealed class UploadUserFileUseCase(IFileRepository fileRepository, IFileStorage fileStorage, ILogger<UploadUserFileUseCase> logger)
 {
     private readonly FilePath _path = new("userfiles");
     
     public async Task<Fin<UploadUserFileResult>> Upload(UploadUserFileCommand command)
     {
+        logger.LogInformation("User {User} tries to upload file {FileName} with bytes {Bytes}", command.UserId, command.File.Name, command.File.ByteSize);
+        
         var fileOutcome = CreateUserFile(command);
 
         if (fileOutcome.IsFail)

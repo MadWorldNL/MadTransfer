@@ -1,4 +1,3 @@
-using System.IdentityModel.Tokens.Jwt;
 using JetBrains.Annotations;
 using MadWorldNL.MadTransfer;
 using MadWorldNL.MadTransfer.Configurations;
@@ -16,8 +15,11 @@ const string allowedCors = nameof(allowedCors);
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Host.UseSerilog((context, configuration) =>
-    configuration.ReadFrom.Configuration(context.Configuration));
+if (builder.Configuration.GetValue<bool>("SerilogSettings:Active"))
+{
+    builder.Host.UseSerilog((context, configuration) =>
+        configuration.ReadFrom.Configuration(context.Configuration));   
+}
 
 var authenticationSettings = builder.Configuration
     .GetRequiredSection(AuthenticationSettings.Key)
@@ -44,8 +46,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
         if (!authenticationSettings.ValidateUser)
         {
-            Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
-            
             options.TokenValidationParameters.SignatureValidator = (token, parameters) =>
             {
                 // Just return the token without validating signature

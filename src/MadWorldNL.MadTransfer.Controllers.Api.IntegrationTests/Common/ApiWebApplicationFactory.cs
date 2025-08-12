@@ -1,10 +1,13 @@
 using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Containers;
 using JetBrains.Annotations;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Testcontainers.PostgreSql;
+using Xunit.Abstractions;
 
 namespace MadWorldNL.MadTransfer.Common;
 
@@ -23,6 +26,7 @@ public class ApiWebApplicationFactory : WebApplicationFactory<Program>
             .WithImage("postgres:17")
             .WithUsername(DbUserName)
             .WithPassword(DbPassword)
+            .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(DbPort))
             .Build();
 
     private const int StoragePort = 9000;
@@ -30,7 +34,30 @@ public class ApiWebApplicationFactory : WebApplicationFactory<Program>
     private readonly IContainer _s3Ninja = new ContainerBuilder()
         .WithImage("scireum/s3-ninja:8.5.0")
         .WithPortBinding(StoragePort, true)
+        .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(StoragePort))
         .Build();
+
+    private ITestOutputHelper? _testOutputHelper;
+    
+    public void SetOutputHelper(ITestOutputHelper testOutputHelper)
+    {
+        _testOutputHelper = testOutputHelper;
+    }
+
+    protected override void ConfigureWebHost(IWebHostBuilder builder)
+    {
+        if (_testOutputHelper != null)
+        {
+            builder.ConfigureLogging(logging =>
+            {
+                logging.ClearProviders();
+                logging.AddProvider(new XUnitLoggerProvider(_testOutputHelper));
+                logging.SetMinimumLevel(LogLevel.Trace);
+            });
+        }
+        
+        base.ConfigureWebHost(builder);
+    }
 
     protected override IHost CreateHost(IHostBuilder builder)
     {
@@ -46,11 +73,13 @@ public class ApiWebApplicationFactory : WebApplicationFactory<Program>
                 ["DatabaseSettings:Port"] = _postgresContainer.GetMappedPublicPort(DbPort).ToString(),
                 ["DatabaseSettings:User"] = DbUserName,
                 ["DatabaseSettings:Password"] = DbPassword,
-                ["StorageSettings:Host"] = $"http://{_s3Ninja.Hostname}:{_s3Ninja.GetMappedPublicPort(StoragePort).ToString()}"
+                ["StorageSettings:Host"] = $"http://{_s3Ninja.Hostname}:{_s3Ninja.GetMappedPublicPort(StoragePort).ToString()}",
+                ["SerilogSettings:Active"] = "false"
             };
 
             config.AddInMemoryCollection(testSettings);
         });
+        
         return base.CreateHost(builder);
     }
 

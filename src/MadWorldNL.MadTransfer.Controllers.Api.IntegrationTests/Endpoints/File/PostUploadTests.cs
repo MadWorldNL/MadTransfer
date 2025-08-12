@@ -1,17 +1,28 @@
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using MadWorldNL.MadTransfer.Files;
+using Xunit.Abstractions;
 
 namespace MadWorldNL.MadTransfer.Endpoints.File;
 
-public sealed class PostUploadTests(ApiWebApplicationFactory factory) : IClassFixture<ApiWebApplicationFactory>
+public sealed class PostUploadTests : IClassFixture<ApiWebApplicationFactory>
 {
+    private readonly ApiWebApplicationFactory _factory;
+
+    public PostUploadTests(ApiWebApplicationFactory factory, ITestOutputHelper testOutputHelper)
+    {
+        _factory = factory;
+        _factory.SetOutputHelper(testOutputHelper);
+    }
+    
     [Fact]
     public async Task Post_WhenHasFile_ThenSaveFile()
     {
         // Arrange
-        using var client = factory.CreateClient();
+        using var client = _factory.CreateClient();
         client
             .DefaultRequestHeaders
-            .Authorization = new AuthenticationHeaderValue("Bearer", factory.GetJwtToken());
+            .Authorization = new AuthenticationHeaderValue("Bearer", _factory.GetJwtToken());
         
         // Prepare file content (for example, from memory or disk)
         var fileContent = new ByteArrayContent(System.Text.Encoding.UTF8.GetBytes("File content here"));
@@ -25,6 +36,8 @@ public sealed class PostUploadTests(ApiWebApplicationFactory factory) : IClassFi
         
         // Assert
         response.EnsureSuccessStatusCode();
-        //TODO: Real Assert
+        var content = await response.Content.ReadFromJsonAsync<UploadResponse>();
+        content.ShouldNotBeNull();
+        content.DownloadUrl.ShouldNotBeNull();
     }
 }
