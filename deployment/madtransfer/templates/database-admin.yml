@@ -40,6 +40,17 @@ spec:
       containers:
         - name: {{ .Values.admin.database.name }}
           image: {{ .Values.admin.database.image }}:{{ .Values.admin.database.tag }}
+          env:
+            - name: PGADMIN_DEFAULT_EMAIL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.admin.database.secret.name }}
+                  key: username
+            - name: PGADMIN_DEFAULT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.admin.database.secret.name }}
+                  key: password
           ports:
             - containerPort: 80
 ---
