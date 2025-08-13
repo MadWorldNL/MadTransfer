@@ -1,0 +1,27 @@
+{{- $storageSecrets := (lookup "v1" "Secret" .Values.namespace .Values.storage.name ) -}}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Values.storage.name }}
+  namespace: {{ .Values.namespace }}
+type: kubernetes.io/basic-auth
+data:
+{{- if and $storageSecrets $storageSecrets.data }}
+  {{- if $storageSecrets.data.accesskey }}
+  accesskey: {{ $storageSecrets.data.accesskey }}
+    {{- else }}
+  accesskey: {{ .Values.storage.accesskey | b64enc }}
+    {{- end }}
+  {{- else }}
+  accesskey: {{ .Values.storage.accesskey | b64enc }}
+{{- end }}
+{{- if and $storageSecrets $storageSecrets.data }}
+  {{- if $storageSecrets.data.secretkey }}
+  secretkey: {{ $storageSecrets.data.secretkey }}
+  {{- else }}
+  secretkey: {{ .Values.storage.secretkey | b64enc }}
+  {{- end }}
+{{- else }}
+  secretkey: {{ .Values.storage.secretkey | b64enc }}
+{{- end }}
+---
