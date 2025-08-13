@@ -61,7 +61,7 @@ admin:
     
 storage:
   name: "objectstorage"
-  host: "https://s3.de.io.cloud.ovh.net/"
+  host: "https://s3.de.io.cloud.ovh.net"
   accesskey: "nonExistingKey1234"
   secretkey: "nonExistingKey1234"
   bucket:
