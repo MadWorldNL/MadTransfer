@@ -39,7 +39,7 @@ spec:
     spec:
       containers:
         - name: {{ .Values.admin.database.name }}
-          image: {{ .Values.admin.database.image }}:{{ .Values.image.tag }}
+          image: {{ .Values.admin.database.image }}:{{ .Values.admin.database.tag }}
           ports:
             - containerPort: 80
 ---
