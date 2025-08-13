@@ -4,7 +4,7 @@ kind: Secret
 metadata:
   name: {{ .Values.storage.name }}
   namespace: {{ .Values.namespace }}
-type: kubernetes.io/basic-auth
+type: Opaque
 data:
 {{- if and $storageSecrets $storageSecrets.data }}
   {{- if $storageSecrets.data.accesskey }}
