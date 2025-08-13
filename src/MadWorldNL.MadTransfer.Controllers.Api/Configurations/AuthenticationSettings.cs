@@ -1,6 +1,6 @@
 namespace MadWorldNL.MadTransfer.Configurations;
 
-public class AuthenticationSettings
+public sealed class AuthenticationSettings
 {
     public const string Key = "Authentication";
 

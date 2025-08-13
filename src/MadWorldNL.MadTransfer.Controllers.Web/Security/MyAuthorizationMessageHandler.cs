@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 
 namespace MadWorldNL.MadTransfer.Security;
 
-public class MyAuthorizationMessageHandler : AuthorizationMessageHandler
+public sealed class MyAuthorizationMessageHandler : AuthorizationMessageHandler
 {
     public MyAuthorizationMessageHandler(IAccessTokenProvider provider, NavigationManager navigation, IOptions<ApiSettings> apiSettings) : base(provider, navigation)
     {

@@ -1,0 +1,61 @@
+{{- $pgadminSecrets := (lookup "v1" "Secret" .Values.namespace .Values.admin.database.secret.name ) -}}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Values.admin.database.secret.name }}
+  namespace: {{ .Values.namespace }}
+type: kubernetes.io/basic-auth
+data:
+  username: {{ .Values.admin.database.username | b64enc }}
+{{- if and $pgadminSecrets $pgadminSecrets.data }}
+  {{- if $pgadminSecrets.data.password }}
+  password: {{ $pgadminSecrets.data.password }}
+  {{- else }}
+  password: {{ .Values.admin.database.password | b64enc }}
+  {{- end }}
+{{- else }}
+  password: {{ .Values.admin.database.password | b64enc }}
+{{- end }}
+---
+{{- if .Values.admin.database.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.admin.database.deployment }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.admin.database.app }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.admin.database.app }}
+      task: {{ .Values.admin.database.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.admin.database.app }}
+        task: {{ .Values.admin.database.name }}
+    spec:
+      containers:
+        - name: {{ .Values.admin.database.name }}
+          image: {{ .Values.madtransfer.api.image }}:{{ .Values.image.tag }}
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.admin.database.loadBalancer}}
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: {{ .Values.admin.database.app }}
+    task: {{ .Values.admin.database.name }}
+  ports:
+    - protocol: TCP
+      name: http
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
+{{ end }}

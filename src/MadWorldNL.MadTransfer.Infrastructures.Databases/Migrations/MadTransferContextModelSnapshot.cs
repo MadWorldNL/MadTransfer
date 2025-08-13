@@ -4,6 +4,7 @@ using MadWorldNL.MadTransfer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using NodaTime;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -25,12 +26,59 @@ namespace MadWorldNL.MadTransfer.Migrations
             modelBuilder.Entity("MadWorldNL.MadTransfer.Files.UserFile", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Instant>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
                     b.ToTable("Files");
+                });
+
+            modelBuilder.Entity("MadWorldNL.MadTransfer.Files.UserFile", b =>
+                {
+                    b.OwnsOne("MadWorldNL.MadTransfer.Files.FileMetaData", "MetaData", b1 =>
+                        {
+                            b1.Property<Guid>("UserFileId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<long>("ByteSize")
+                                .HasColumnType("bigint")
+                                .HasColumnName("FileByteSize");
+
+                            b1.Property<string>("Extension")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("FileExtension");
+
+                            b1.Property<string>("InternalName")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("FileInternalName");
+
+                            b1.Property<string>("Name")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("FileName");
+
+                            b1.HasKey("UserFileId");
+
+                            b1.ToTable("Files");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserFileId");
+                        });
+
+                    b.Navigation("MetaData")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

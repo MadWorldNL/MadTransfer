@@ -1,0 +1,48 @@
+using MadWorldNL.MadTransfer.Primitives;
+
+namespace MadWorldNL.MadTransfer.Web;
+
+public sealed class Hyperlink : ValueObject
+{
+    public string Value { get; } = null!;
+
+    private Hyperlink(string value)
+    {
+        Value = value;
+    }
+    
+    /// <summary>
+    /// Only used by entity framework
+    /// </summary>
+    [UsedImplicitly]
+    private Hyperlink()
+    {
+    }
+    
+    public static Hyperlink Create(Guid id)
+    {
+        var value = GuidToShortString(id);
+        
+        return new Hyperlink(value!);
+    }
+    
+    public static Hyperlink FromDatabase(string value)
+    {
+        return new Hyperlink(value);
+    }
+    
+    private static string GuidToShortString(Guid guid)
+    {
+        var base64 = Convert.ToBase64String(guid.ToByteArray());
+        return base64
+            .Replace("+", "-")  // URL-safe
+            .Replace("/", "_")
+            .Substring(0, 22);  // Remove "==" padding
+    }
+
+    
+    protected override IEnumerable<object?> GetEqualityComponents()
+    {
+        yield return Value;
+    }
+}

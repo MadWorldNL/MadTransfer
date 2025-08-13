@@ -1,6 +1,6 @@
 namespace MadWorldNL.MadTransfer.Configurations;
 
-public class ApiSettings
+public sealed class ApiSettings
 {
     public const string Key = "Api";
 

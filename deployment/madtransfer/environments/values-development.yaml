@@ -1,7 +1,7 @@
 namespace: madtransfer-development
 
 image:
-  tag: "v0.4.1"
+  tag: "v0.5.0"
 
 clusterIssuer:
   enabled: false
@@ -9,3 +9,12 @@ clusterIssuer:
 madtransfer:
   api:
     host: "transfer-api.mad-world.local"
+  web:
+    host: "transfer.mad-world.local"
+    
+admin:
+  database: 
+    host: "database.mad-world.local"
+
+keycloak:
+  host: "identity.mad-world.local"

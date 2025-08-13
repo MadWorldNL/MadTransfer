@@ -39,6 +39,20 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.database.secret.name }}
                   key: password
+            - name: StorageSettings__Host
+              value: {{ .Values.storage.host }}
+            - name: StorageSettings__BucketName
+              value: {{ .Values.storage.bucket.name }}
+            - name: StorageSettings__AccessKey
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.storage.name }}
+                  key: accesskey
+            - name: StorageSettings__SecretKey
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.storage.name }}
+                  key: secretkey
           ports:
             - containerPort: 8080
 ---

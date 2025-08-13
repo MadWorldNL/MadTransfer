@@ -3,6 +3,7 @@
     <AssemblyName>$(RootNamespace).Infrastructures.Databases</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="LanguageExt.Core" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
   </ItemGroup>
   <ItemGroup>
