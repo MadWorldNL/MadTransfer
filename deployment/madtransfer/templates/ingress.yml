@@ -15,6 +15,7 @@ spec:
         - {{ .Values.certification.commonDomain }}
         - {{ .Values.madtransfer.api.host }}
         - {{ .Values.madtransfer.web.host }}
+        - {{ .Values.admin.database.host }}
         - {{ .Values.keycloak.host }}
       secretName: madworld-tls
   {{ end }}
@@ -59,3 +60,13 @@ spec:
                 name: {{ .Values.keycloak.loadBalancer }}
                 port:
                   number: 8080
+    - host: {{ .Values.admin.database.host }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.admin.database.loadBalancer }}
+                port:
+                  number: 80

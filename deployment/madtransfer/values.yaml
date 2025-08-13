@@ -1,7 +1,7 @@
 namespace: madtransfer
 
 image:
-  tag: "v0.4.1"
+  tag: "v0.5.0"
 
 clusterIssuer:
   enabled: true
@@ -44,8 +44,23 @@ database:
     readwrite: "postgres-rw"
     read: "postgres-r"
     
+admin:
+  database:
+    enabled: true
+    deployment: "pgadmin-deployment"
+    loadBalancer: "pgadmin-balancer"
+    app: "pgadmin"
+    name: "pgadmin"
+    username: "admin@mad-world.nl"
+    password: "nonExistingKey1234"
+    image: "dpage/pgadmin4"
+    tag: "9"
+    host: "database.mad-world.eu"
+    secret:
+      name: "pgadmin-secret"
+    
 storage:
-  name: objectstorage
+  name: "objectstorage"
   host: "https://s3.de.io.cloud.ovh.net/"
   accesskey: "nonExistingKey1234"
   secretkey: "nonExistingKey1234"
