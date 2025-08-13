@@ -39,7 +39,7 @@ spec:
     spec:
       containers:
         - name: {{ .Values.admin.database.name }}
-          image: {{ .Values.madtransfer.api.image }}:{{ .Values.image.tag }}
+          image: {{ .Values.admin.database.image }}:{{ .Values.image.tag }}
           ports:
             - containerPort: 80
 ---
