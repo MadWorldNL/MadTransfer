@@ -40,5 +40,19 @@ internal static class FileEndpoints
                     error => Results.BadRequest()
                 );
             }).RequireAuthorization();
+
+        endpoints.MapGet("/Info", ([AsParameters] InfoRequest request) => new InfoResponse()
+        {
+            Id = request.Id ?? string.Empty
+        });
+        
+        endpoints.MapGet("/Download", ([AsParameters] DownloadRequest request) =>
+        {
+            var text = $"Hello from the server! ({request.Id})";
+            var bytes = System.Text.Encoding.UTF8.GetBytes(text);
+            var stream = new MemoryStream(bytes);
+
+            return Results.File(stream, "text/plain", "example.txt");
+        });
     }
 }
