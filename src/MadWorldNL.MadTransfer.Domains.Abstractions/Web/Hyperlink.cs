@@ -1,3 +1,4 @@
+using MadWorldNL.MadTransfer.Exceptions;
 using MadWorldNL.MadTransfer.Primitives;
 
 namespace MadWorldNL.MadTransfer.Web;
@@ -25,6 +26,21 @@ public sealed class Hyperlink : ValueObject
         
         return new Hyperlink(value!);
     }
+
+    public static Fin<Hyperlink> Create(string? id)
+    {
+        if (string.IsNullOrEmpty(id))
+        {
+            return Fin<Hyperlink>.Fail(new EmptyException(nameof(id)));
+        }
+        
+        if (!IsShortStringGuid(id))
+        {
+            return Fin<Hyperlink>.Fail(new InvalidGuidException(nameof(id)));
+        }
+
+        return new Hyperlink(id);
+    }
     
     public static Hyperlink FromDatabase(string value)
     {
@@ -38,6 +54,20 @@ public sealed class Hyperlink : ValueObject
             .Replace("+", "-")  // URL-safe
             .Replace("/", "_")
             .Substring(0, 22);  // Remove "==" padding
+    }
+
+    private static bool IsShortStringGuid(string shortString)
+    {
+        var guidString = ShortStringToGuidString(shortString);
+        return Guid.TryParse(guidString, out _);
+    }
+    
+    private static string ShortStringToGuidString(string shortString)
+    {
+        return shortString
+            .Replace("-", "+")  // URL-safe
+            .Replace("_", "/")
+            .PadRight(22, '=');  // Add "==" padding
     }
 
     

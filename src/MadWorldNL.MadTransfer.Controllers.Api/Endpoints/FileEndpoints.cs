@@ -1,6 +1,8 @@
 using MadWorldNL.MadTransfer.Files;
+using MadWorldNL.MadTransfer.Files.GetInfo;
 using MadWorldNL.MadTransfer.Files.Upload;
 using MadWorldNL.MadTransfer.Identities;
+using MadWorldNL.MadTransfer.Web;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 
@@ -37,14 +39,24 @@ internal static class FileEndpoints
                     result => Results.Ok(new UploadResponse()
                     {
                         DownloadUrl = $"/File/Download/{result.Url}"
-                    }),
-                    error => Results.BadRequest()
-                );
+                    }), error => error.ToFaultyResult());
             }).RequireAuthorization();
 
-        endpoints.MapGet("/Info", ([AsParameters] InfoRequest request) => new InfoResponse()
+        endpoints.MapGet("/Info", ([AsParameters] InfoRequest request, [FromServices] GetInfoUserFileUseCase useCase)  =>
         {
-            Id = request.Id ?? string.Empty
+            var command = new GetInfoUserFileCommand()
+            {
+                Id = request.Id
+            };
+            
+            var getInfoOutcome = useCase.GetInfo(command);
+
+            return getInfoOutcome.Match(result => Results.Ok(new InfoResponse()
+            {
+                Id = result.Id,
+                FileName = result.FileName,
+                FileSize = result.FileSize
+            }), error => error.ToFaultyResult());
         });
         
         endpoints.MapGet("/Download", ([AsParameters] DownloadRequest request) =>
