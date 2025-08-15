@@ -2,6 +2,7 @@ using MadWorldNL.MadTransfer.Files;
 using MadWorldNL.MadTransfer.Files.Upload;
 using MadWorldNL.MadTransfer.Identities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace MadWorldNL.MadTransfer.Endpoints;
 
@@ -51,8 +52,16 @@ internal static class FileEndpoints
             var text = $"Hello from the server! ({request.Id})";
             var bytes = System.Text.Encoding.UTF8.GetBytes(text);
             var stream = new MemoryStream(bytes);
+            
+            var provider = new FileExtensionContentTypeProvider();
 
-            return Results.File(stream, "text/plain", "example.txt");
+            const string defaultContentType = "application/octet-stream";
+            if (!provider.TryGetContentType("example.txt", out string? contentType))
+            {
+                contentType = defaultContentType;
+            }
+
+            return Results.File(stream, contentType, "example.txt");
         });
     }
 }
