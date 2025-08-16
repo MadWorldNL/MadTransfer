@@ -49,16 +49,17 @@ public sealed class Hyperlink : ValueObject
     
     private static string GuidToShortString(Guid guid)
     {
-        var base64 = Convert.ToBase64String(guid.ToByteArray());
+        var guidBytes = System.Text.Encoding.UTF8.GetBytes(guid.ToString());
+        var base64 = Convert.ToBase64String(guidBytes);
         return base64
-            .Replace("+", "-")  // URL-safe
-            .Replace("/", "_")
-            .Substring(0, 22);  // Remove "==" padding
+            .Replace("+", "-") // URL-safe
+            .Replace("/", "_");
     }
 
     private static bool IsShortStringGuid(string shortString)
     {
-        var guidString = ShortStringToGuidString(shortString);
+        var base64 = ShortStringToGuidString(shortString);
+        var guidString = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(base64));
         return Guid.TryParse(guidString, out _);
     }
     
@@ -67,7 +68,7 @@ public sealed class Hyperlink : ValueObject
         return shortString
             .Replace("-", "+")  // URL-safe
             .Replace("_", "/")
-            .PadRight(22, '=');  // Add "==" padding
+            .PadRight(24, '=');  // Add "==" padding
     }
 
     
