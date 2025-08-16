@@ -2,6 +2,7 @@ using System.Net;
 using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.S3.Model;
+using LanguageExt;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -37,6 +38,11 @@ public sealed class FileStorage(IOptions<StorageSettings> settings, ILogger<File
         {
             logger.LogError(exception, "There was an error uploading the file");
         }
+    }
+
+    public Task<Fin<Stream>> Download(FileMetaData metaData, FilePath path)
+    {
+        throw new NotImplementedException();
     }
 
     private static AmazonS3Client GetClient(StorageSettings settings)

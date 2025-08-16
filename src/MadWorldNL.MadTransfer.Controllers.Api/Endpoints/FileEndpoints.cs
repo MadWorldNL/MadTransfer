@@ -1,4 +1,5 @@
 using MadWorldNL.MadTransfer.Files;
+using MadWorldNL.MadTransfer.Files.Download;
 using MadWorldNL.MadTransfer.Files.GetInfo;
 using MadWorldNL.MadTransfer.Files.Upload;
 using MadWorldNL.MadTransfer.Identities;
@@ -13,7 +14,8 @@ internal static class FileEndpoints
     internal static void AddFileEndpoints(this WebApplication app)
     {
         var endpoints = app.MapGroup("/File")
-            .DisableAntiforgery();
+            .DisableAntiforgery()
+            .RequireAuthorization();
 
         endpoints.MapPost("/Upload",
             async ([FromForm] UploadRequest request,
@@ -42,13 +44,14 @@ internal static class FileEndpoints
                     }), error => error.ToFaultyResult());
             }).RequireAuthorization();
 
-        endpoints.MapGet("/Info", ([AsParameters] InfoRequest request, [FromServices] GetInfoUserFileUseCase useCase)  =>
+        endpoints.MapGet("/Info", ([AsParameters] InfoRequest request, 
+            [FromServices] GetInfoUserFileUseCase useCase) =>
         {
             var command = new GetInfoUserFileCommand()
             {
                 Id = request.Id
             };
-            
+
             var getInfoOutcome = useCase.GetInfo(command);
 
             return getInfoOutcome.Match(result => Results.Ok(new InfoResponse()
@@ -59,21 +62,31 @@ internal static class FileEndpoints
             }), error => error.ToFaultyResult());
         });
         
-        endpoints.MapGet("/Download", ([AsParameters] DownloadRequest request) =>
+        endpoints.MapGet("/Download", async ([AsParameters] DownloadRequest request, 
+            [FromServices] DownloadUserFileUseCase useCase) =>
         {
-            var text = $"Hello from the server! ({request.Id})";
-            var bytes = System.Text.Encoding.UTF8.GetBytes(text);
-            var stream = new MemoryStream(bytes);
-            
-            var provider = new FileExtensionContentTypeProvider();
-
-            const string defaultContentType = "application/octet-stream";
-            if (!provider.TryGetContentType("example.txt", out string? contentType))
+            var command = new DownloadUserFileCommand()
             {
-                contentType = defaultContentType;
-            }
+                Id = request.Id
+            };
 
-            return Results.File(stream, contentType, "example.txt");
+            var downloadOutcome = await useCase.Download(command);
+            return downloadOutcome.Match(
+                CreateFileResponse, 
+                error => error.ToFaultyResult());
         });
+    }
+
+    private static IResult CreateFileResponse(DownloadUserFileResult download)
+    {
+        var provider = new FileExtensionContentTypeProvider();
+
+        const string defaultContentType = "application/octet-stream";
+        if (!provider.TryGetContentType("example.txt", out var contentType))
+        {
+            contentType = defaultContentType;
+        }
+        
+        return Results.File(download.FileStream, contentType, download.FileName);
     }
 }
