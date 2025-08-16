@@ -82,7 +82,7 @@ internal static class FileEndpoints
         var provider = new FileExtensionContentTypeProvider();
 
         const string defaultContentType = "application/octet-stream";
-        if (!provider.TryGetContentType("example.txt", out var contentType))
+        if (!provider.TryGetContentType(download.FileName, out var contentType))
         {
             contentType = defaultContentType;
         }
