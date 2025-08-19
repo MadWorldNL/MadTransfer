@@ -21,7 +21,8 @@ public sealed class GetInfoUserFileUseCase(IFileRepository fileRepository)
         return userFileFound.Match(userFile => new GetInfoUserFileResult()
             {
                 Id = hyperlink.Value,
-                FileName = userFile.MetaData.Name
+                FileName = userFile.MetaData.Name,
+                FileSize = userFile.MetaData.ByteSize
             },
             () => Fin<GetInfoUserFileResult>.Fail(new NotFoundException(nameof(UserFile))));
     }
