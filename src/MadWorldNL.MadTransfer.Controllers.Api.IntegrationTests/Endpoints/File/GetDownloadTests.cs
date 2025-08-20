@@ -49,7 +49,7 @@ public sealed class GetDownloadTests(ApiWebApplicationFactory factory) : IClassF
         using var scope = factory.Server.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<MadTransferContext>();
         context.Files.Add(userFile);
-        context.SaveChanges();
+        await context.SaveChangesAsync();
         
         var fileStorage = scope.ServiceProvider.GetRequiredService<IFileStorage>();
         const string text = "Hello, Stream!";
