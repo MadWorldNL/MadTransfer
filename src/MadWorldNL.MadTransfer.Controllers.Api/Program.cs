@@ -158,10 +158,10 @@ builder.Services.AddScoped<IFileStorage, FileStorage>();
 
 var app = builder.Build();
 
-app.UseRateLimiter();
 app.UseCors(allowedCors);
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseRateLimiter();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
