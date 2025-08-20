@@ -17,7 +17,7 @@ public sealed class FileRepository(MadTransferContext context) : IFileRepository
         await context.SaveChangesAsync();
     }
 
-    private Option<UserFile> GetUserFile(Hyperlink url)
+    public Option<UserFile> GetUserFile(Hyperlink url)
     {
         return context.Files.Find(f => f.Url.Equals(url));
     }

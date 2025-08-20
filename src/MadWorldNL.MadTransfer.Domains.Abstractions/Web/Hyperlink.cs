@@ -1,3 +1,4 @@
+using MadWorldNL.MadTransfer.Exceptions;
 using MadWorldNL.MadTransfer.Primitives;
 
 namespace MadWorldNL.MadTransfer.Web;
@@ -25,6 +26,21 @@ public sealed class Hyperlink : ValueObject
         
         return new Hyperlink(value!);
     }
+
+    public static Fin<Hyperlink> Create(string? id)
+    {
+        if (string.IsNullOrEmpty(id))
+        {
+            return Fin<Hyperlink>.Fail(new EmptyException(nameof(id)));
+        }
+        
+        if (!IsShortStringGuid(id))
+        {
+            return Fin<Hyperlink>.Fail(new InvalidGuidException(nameof(id)));
+        }
+
+        return new Hyperlink(id);
+    }
     
     public static Hyperlink FromDatabase(string value)
     {
@@ -33,11 +49,26 @@ public sealed class Hyperlink : ValueObject
     
     private static string GuidToShortString(Guid guid)
     {
-        var base64 = Convert.ToBase64String(guid.ToByteArray());
+        var guidBytes = System.Text.Encoding.UTF8.GetBytes(guid.ToString());
+        var base64 = Convert.ToBase64String(guidBytes);
         return base64
-            .Replace("+", "-")  // URL-safe
-            .Replace("/", "_")
-            .Substring(0, 22);  // Remove "==" padding
+            .Replace("+", "-") // URL-safe
+            .Replace("/", "_");
+    }
+
+    private static bool IsShortStringGuid(string shortString)
+    {
+        var base64 = ShortStringToGuidString(shortString);
+        var guidString = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(base64));
+        return Guid.TryParse(guidString, out _);
+    }
+    
+    private static string ShortStringToGuidString(string shortString)
+    {
+        return shortString
+            .Replace("-", "+")  // URL-safe
+            .Replace("_", "/")
+            .PadRight(24, '=');  // Add "==" padding
     }
 
     

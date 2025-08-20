@@ -1,7 +1,11 @@
 using MadWorldNL.MadTransfer.Files;
+using MadWorldNL.MadTransfer.Files.Download;
+using MadWorldNL.MadTransfer.Files.GetInfo;
 using MadWorldNL.MadTransfer.Files.Upload;
 using MadWorldNL.MadTransfer.Identities;
+using MadWorldNL.MadTransfer.Web;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace MadWorldNL.MadTransfer.Endpoints;
 
@@ -10,7 +14,8 @@ internal static class FileEndpoints
     internal static void AddFileEndpoints(this WebApplication app)
     {
         var endpoints = app.MapGroup("/File")
-            .DisableAntiforgery();
+            .DisableAntiforgery()
+            .RequireAuthorization();
 
         endpoints.MapPost("/Upload",
             async ([FromForm] UploadRequest request,
@@ -36,9 +41,52 @@ internal static class FileEndpoints
                     result => Results.Ok(new UploadResponse()
                     {
                         DownloadUrl = $"/File/Download/{result.Url}"
-                    }),
-                    error => Results.BadRequest()
-                );
+                    }), error => error.ToFaultyResult());
             }).RequireAuthorization();
+
+        endpoints.MapGet("/Info", ([AsParameters] InfoRequest request, 
+            [FromServices] GetInfoUserFileUseCase useCase) =>
+        {
+            var command = new GetInfoUserFileCommand()
+            {
+                Id = request.Id
+            };
+
+            var getInfoOutcome = useCase.GetInfo(command);
+
+            return getInfoOutcome.Match(result => Results.Ok(new InfoResponse()
+            {
+                Id = result.Id,
+                FileName = result.FileName,
+                FileSize = result.FileSize
+            }), error => error.ToFaultyResult());
+        });
+        
+        endpoints.MapGet("/Download", async ([AsParameters] DownloadRequest request, 
+            [FromServices] DownloadUserFileUseCase useCase) =>
+        {
+            var command = new DownloadUserFileCommand()
+            {
+                Id = request.Id
+            };
+
+            var downloadOutcome = await useCase.Download(command);
+            return downloadOutcome.Match(
+                CreateFileResponse, 
+                error => error.ToFaultyResult());
+        });
+    }
+
+    private static IResult CreateFileResponse(DownloadUserFileResult download)
+    {
+        var provider = new FileExtensionContentTypeProvider();
+
+        const string defaultContentType = "application/octet-stream";
+        if (!provider.TryGetContentType(download.FileName, out var contentType))
+        {
+            contentType = defaultContentType;
+        }
+        
+        return Results.File(download.FileStream, contentType, download.FileName);
     }
 }

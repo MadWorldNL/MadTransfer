@@ -4,6 +4,8 @@ using MadWorldNL.MadTransfer.Configurations;
 using MadWorldNL.MadTransfer.Databases;
 using MadWorldNL.MadTransfer.Endpoints;
 using MadWorldNL.MadTransfer.Files;
+using MadWorldNL.MadTransfer.Files.Download;
+using MadWorldNL.MadTransfer.Files.GetInfo;
 using MadWorldNL.MadTransfer.Files.Upload;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -101,6 +103,8 @@ builder.Services.Configure<StorageSettings>(
     builder.Configuration.GetSection(StorageSettings.Key));
 
 // TODO: Move use-cases
+builder.Services.AddScoped<GetInfoUserFileUseCase>();
+builder.Services.AddScoped<DownloadUserFileUseCase>();
 builder.Services.AddScoped<UploadUserFileUseCase>();
 
 // TODO: Move Database & Storage
