@@ -1,3 +1,4 @@
+using MadWorldNL.MadTransfer.Configurations;
 using MadWorldNL.MadTransfer.Files;
 using MadWorldNL.MadTransfer.Files.Download;
 using MadWorldNL.MadTransfer.Files.GetInfo;
@@ -15,7 +16,8 @@ internal static class FileEndpoints
     {
         var endpoints = app.MapGroup("/File")
             .DisableAntiforgery()
-            .RequireAuthorization();
+            .RequireAuthorization()
+            .RequireRateLimiting(RateLimiterNames.PerUserPolicy);
 
         endpoints.MapPost("/Upload",
             async ([FromForm] UploadRequest request,
