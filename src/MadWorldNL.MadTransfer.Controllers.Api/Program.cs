@@ -1,3 +1,4 @@
+using System.Threading.RateLimiting;
 using JetBrains.Annotations;
 using MadWorldNL.MadTransfer;
 using MadWorldNL.MadTransfer.Configurations;
@@ -7,6 +8,8 @@ using MadWorldNL.MadTransfer.Files;
 using MadWorldNL.MadTransfer.Files.Download;
 using MadWorldNL.MadTransfer.Files.GetInfo;
 using MadWorldNL.MadTransfer.Files.Upload;
+using MadWorldNL.MadTransfer.Identities;
+using MadWorldNL.MadTransfer.Web;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.JsonWebTokens;
@@ -48,7 +51,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
         if (!authenticationSettings.ValidateUser)
         {
-            options.TokenValidationParameters.SignatureValidator = (token, parameters) =>
+            options.TokenValidationParameters.SignatureValidator = (token, _) =>
             {
                 // Just return the token without validating signature
                 var handler = new JsonWebTokenHandler();
@@ -72,6 +75,48 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddAuthorization();
+
+builder.Services.AddRateLimiter(options =>
+{
+    options.OnRejected = async (context, token) =>
+    {
+        const string retryAfterSeconds = "60";
+        
+        context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+        context.HttpContext.Response.ContentType = "application/json";
+        context.HttpContext.Response.Headers.RetryAfter = retryAfterSeconds;
+        
+        await context.HttpContext.Response.WriteAsync(
+            $"{{\"error\":\"Too Many Requests\",\"message\":\"Try again in {retryAfterSeconds} seconds.\"}}", token);
+    };
+    
+    options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
+    {
+        var ip = httpContext.GetIpAddress();
+
+        return RateLimitPartition.GetTokenBucketLimiter(ip, _ => new TokenBucketRateLimiterOptions
+        {
+            TokenLimit = 100,
+            QueueLimit = 0,
+            ReplenishmentPeriod = TimeSpan.FromMinutes(1),
+            TokensPerPeriod = 100,
+            AutoReplenishment = true,
+        });
+    });
+    
+    options.AddPolicy(RateLimiterNames.PerUserPolicy, httpContext =>
+    {
+        var userId = httpContext.User.GetUserId();
+
+        return RateLimitPartition.GetFixedWindowLimiter(userId, _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = 10,
+            Window = TimeSpan.FromSeconds(10),
+            QueueLimit = 0,
+            QueueProcessingOrder = QueueProcessingOrder.OldestFirst
+        });
+    });
+});
 
 builder.Services.AddCors(options =>
 {
@@ -113,6 +158,7 @@ builder.Services.AddScoped<IFileStorage, FileStorage>();
 
 var app = builder.Build();
 
+app.UseRateLimiter();
 app.UseCors(allowedCors);
 app.UseAuthentication();
 app.UseAuthorization();
