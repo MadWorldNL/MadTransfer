@@ -2,6 +2,7 @@ namespace MadWorldNL.MadTransfer.Status;
 
 public sealed class CheckStatusUseCase(
     IStatusRepository statusRepository,
+    IStatusIdentity statusIdentity,
     IStatusStorage statusStorage)
 {
     public async Task<CheckStatusResult> CheckStatus()
@@ -10,7 +11,7 @@ public sealed class CheckStatusUseCase(
         {
             IsAlive = true,
             IsDatabaseAlive = await statusRepository.IsAlive(),
-            IsIdentityServerAlive = false,
+            IsIdentityServerAlive = await statusIdentity.IsAlive(),
             IsStorageAlive = await statusStorage.IsAlive(),
         };
     }
