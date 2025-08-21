@@ -12,7 +12,7 @@ namespace MadWorldNL.MadTransfer.Files;
 public sealed class FileStorage(IOptions<StorageSettings> settings, ILogger<FileStorage> logger) : IFileStorage
 {
     private readonly StorageSettings _settings = settings.Value;
-    private readonly AmazonS3Client _client = GetClient(settings.Value);
+    private readonly AmazonS3Client _client = settings.Value.GetClient();
 
     public async Task Upload(FileMetaData metaData, FilePath path, Stream stream)
     {
@@ -64,16 +64,5 @@ public sealed class FileStorage(IOptions<StorageSettings> settings, ILogger<File
         }
         
         return Fin<Stream>.Fail(new NotFoundException(nameof(UserFile)));   
-    }
-
-    private static AmazonS3Client GetClient(StorageSettings settings)
-    {
-        var config = new AmazonS3Config
-        {
-            ServiceURL = settings.Host,
-            ForcePathStyle = true
-        };
-
-        return new AmazonS3Client(new BasicAWSCredentials(settings.AccessKey, settings.SecretKey), config);  
     }
 }

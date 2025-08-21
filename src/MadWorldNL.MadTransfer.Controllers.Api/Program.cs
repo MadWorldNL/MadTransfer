@@ -9,6 +9,7 @@ using MadWorldNL.MadTransfer.Files.Download;
 using MadWorldNL.MadTransfer.Files.GetInfo;
 using MadWorldNL.MadTransfer.Files.Upload;
 using MadWorldNL.MadTransfer.Identities;
+using MadWorldNL.MadTransfer.Status;
 using MadWorldNL.MadTransfer.Web;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -152,9 +153,14 @@ builder.Services.AddScoped<GetInfoUserFileUseCase>();
 builder.Services.AddScoped<DownloadUserFileUseCase>();
 builder.Services.AddScoped<UploadUserFileUseCase>();
 
+builder.Services.AddScoped<CheckStatusUseCase>();
+
 // TODO: Move Database & Storage
 builder.Services.AddScoped<IFileRepository, FileRepository>();
 builder.Services.AddScoped<IFileStorage, FileStorage>();
+
+builder.Services.AddScoped<IStatusRepository, StatusRepository>();
+builder.Services.AddScoped<IStatusStorage, StatusStorage>();
 
 var app = builder.Build();
 
@@ -173,8 +179,9 @@ app.UseHttpsRedirection();
 app.UseAntiforgery();
 
 app.MapHealthChecks("/healthz");
-app.AddFileEndpoints();
 app.AddDebugEndpoints();
+app.AddFileEndpoints();
+app.AddStatusEndpoints();
 
 app.Services.MigrateDatabase<MadTransferContext>();
 
