@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Testcontainers.PostgreSql;
+using WireMock.Server;
 using Xunit.Abstractions;
 
 namespace MadWorldNL.MadTransfer.Common;
@@ -39,9 +40,17 @@ public class ApiWebApplicationFactory : WebApplicationFactory<Program>
 
     private ITestOutputHelper? _testOutputHelper;
     
+    private WireMockServer? _identityServer;
+    
     public void SetOutputHelper(ITestOutputHelper testOutputHelper)
     {
         _testOutputHelper = testOutputHelper;
+    }
+
+    public WireMockServer StartIdentityServer()
+    {
+        _identityServer = WireMockServer.Start();
+        return _identityServer;
     }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -63,11 +72,14 @@ public class ApiWebApplicationFactory : WebApplicationFactory<Program>
     {
         _postgresContainer.StartAsync().GetAwaiter().GetResult();
         _s3Ninja.StartAsync().GetAwaiter().GetResult();
+
+        var authority = _identityServer?.Url ?? "http://fakeurl";
         
         builder.ConfigureHostConfiguration(config =>
         {
             var testSettings = new Dictionary<string, string?>
             {
+                ["Authentication:Authority"] = authority,
                 ["Authentication:ValidateUser"] = "false",
                 ["DatabaseSettings:Host"] = _postgresContainer.Hostname,
                 ["DatabaseSettings:Port"] = _postgresContainer.GetMappedPublicPort(DbPort).ToString(),
@@ -99,6 +111,7 @@ public class ApiWebApplicationFactory : WebApplicationFactory<Program>
     {
         await _postgresContainer.DisposeAsync();
         await _s3Ninja.DisposeAsync();
+        _identityServer?.Dispose();
         await base.DisposeAsync();
         
         GC.SuppressFinalize(this);

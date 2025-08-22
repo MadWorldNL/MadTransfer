@@ -11,7 +11,14 @@ public class StatusIdentity(HttpClient httpClient, IOptions<AuthenticationSettin
     
     public async Task<bool> IsAlive()
     {
-        var response = await httpClient.GetAsync(_settings.Authority);
-        return response.StatusCode == HttpStatusCode.OK;
+        try
+        {
+            var response = await httpClient.GetAsync(_settings.Authority);
+            return response.StatusCode == HttpStatusCode.OK;
+        }
+        catch
+        {
+            return false;
+        }
     }
 }
