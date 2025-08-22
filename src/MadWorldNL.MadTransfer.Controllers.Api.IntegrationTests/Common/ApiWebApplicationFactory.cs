@@ -47,7 +47,7 @@ public class ApiWebApplicationFactory : WebApplicationFactory<Program>
         _testOutputHelper = testOutputHelper;
     }
 
-    public WireMockServer StartIdentityServer()
+    public WireMockServer StartIdentityMockServer()
     {
         _identityServer = WireMockServer.Start();
         return _identityServer;

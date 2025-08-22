@@ -11,7 +11,7 @@ public class GetStatusTests(ApiWebApplicationFactory factory) : IClassFixture<Ap
     public async Task Get_WhenGivenEmptyRequest_ReturnsStatusForServices()
     {
         // Arrange
-        var identityServer = factory.StartIdentityServer();
+        var identityServer = factory.StartIdentityMockServer();
         identityServer.Given(Request.Create()
                 .WithPath("/")
                 .UsingGet())
