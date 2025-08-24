@@ -16,7 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\MadWorldNL.MadTransfer.Controllers.Api\Api.csproj" />
+      <ProjectReference Include="..\..\src\MadWorldNL.MadTransfer.Controllers.Api\Api.csproj" />
     </ItemGroup>
 
 </Project>
