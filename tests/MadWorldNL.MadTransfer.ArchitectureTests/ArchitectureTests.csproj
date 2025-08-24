@@ -7,8 +7,17 @@
     <ItemGroup>
         <PackageReference Include="coverlet.collector" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" />
+        <PackageReference Include="TngTech.ArchUnitNET" />
+        <PackageReference Include="TngTech.ArchUnitNET.xUnitV3" />
         <PackageReference Include="xunit" />
         <PackageReference Include="xunit.runner.visualstudio" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\MadWorldNL.MadTransfer.Domains.Functions\Functions.csproj" />
+      <ProjectReference Include="..\..\src\MadWorldNL.MadTransfer.Infrastructures.Databases\Databases.csproj" />
+      <ProjectReference Include="..\..\src\MadWorldNL.MadTransfer.Infrastructures.KeyCloak\KeyCloak.csproj" />
+      <ProjectReference Include="..\..\src\MadWorldNL.MadTransfer.Infrastructures.OvhCloud.Storage\OvhCloud.Storage.csproj" />
     </ItemGroup>
 
 </Project>
