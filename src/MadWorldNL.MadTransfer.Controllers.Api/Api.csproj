@@ -29,6 +29,7 @@
       <ProjectReference Include="..\MadWorldNL.MadTransfer.Controllers.Contracts\Contracts.csproj" />
       <ProjectReference Include="..\MadWorldNL.MadTransfer.Domains.Functions\Functions.csproj" />
       <ProjectReference Include="..\MadWorldNL.MadTransfer.Infrastructures.Databases\Databases.csproj" />
+      <ProjectReference Include="..\MadWorldNL.MadTransfer.Infrastructures.KeyCloak\KeyCloak.csproj" />
       <ProjectReference Include="..\MadWorldNL.MadTransfer.Infrastructures.OvhCloud.Storage\OvhCloud.Storage.csproj" />
     </ItemGroup>
 

@@ -9,9 +9,11 @@ using MadWorldNL.MadTransfer.Files.Download;
 using MadWorldNL.MadTransfer.Files.GetInfo;
 using MadWorldNL.MadTransfer.Files.Upload;
 using MadWorldNL.MadTransfer.Identities;
+using MadWorldNL.MadTransfer.Status;
 using MadWorldNL.MadTransfer.Web;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
@@ -29,6 +31,8 @@ if (builder.Configuration.GetValue<bool>("SerilogSettings:Active"))
 var authenticationSettings = builder.Configuration
     .GetRequiredSection(AuthenticationSettings.Key)
     .Get<AuthenticationSettings>()!;
+
+builder.Services.AddSingleton(Options.Create(authenticationSettings));
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -147,14 +151,22 @@ builder.Services.AddDbContextPool<MadTransferContext>(opt =>
 builder.Services.Configure<StorageSettings>(
     builder.Configuration.GetSection(StorageSettings.Key));
 
+builder.Services.AddHttpClient();
+
 // TODO: Move use-cases
 builder.Services.AddScoped<GetInfoUserFileUseCase>();
 builder.Services.AddScoped<DownloadUserFileUseCase>();
 builder.Services.AddScoped<UploadUserFileUseCase>();
 
+builder.Services.AddScoped<CheckStatusUseCase>();
+
 // TODO: Move Database & Storage
 builder.Services.AddScoped<IFileRepository, FileRepository>();
 builder.Services.AddScoped<IFileStorage, FileStorage>();
+
+builder.Services.AddScoped<IStatusRepository, StatusRepository>();
+builder.Services.AddScoped<IStatusStorage, StatusStorage>();
+builder.Services.AddScoped<IStatusIdentity, StatusIdentity>();
 
 var app = builder.Build();
 
@@ -173,8 +185,9 @@ app.UseHttpsRedirection();
 app.UseAntiforgery();
 
 app.MapHealthChecks("/healthz");
-app.AddFileEndpoints();
 app.AddDebugEndpoints();
+app.AddFileEndpoints();
+app.AddStatusEndpoints();
 
 app.Services.MigrateDatabase<MadTransferContext>();
 
