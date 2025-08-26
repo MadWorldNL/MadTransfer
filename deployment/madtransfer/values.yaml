@@ -1,10 +1,5 @@
 namespace: madtransfer
 
-controller:
-  allowSnippetAnnotations: true
-  config:
-    annotations-risk-level: Critical
-
 image:
   tag: "v0.6.0"
 
