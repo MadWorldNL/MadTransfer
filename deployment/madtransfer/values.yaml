@@ -1,5 +1,10 @@
 namespace: madtransfer
 
+controller:
+  allowSnippetAnnotations: true
+  config:
+    annotations-risk-level: Critical
+
 image:
   tag: "v0.6.0"
 
@@ -67,7 +72,6 @@ storage:
   bucket:
     name: "madtransfer-production"
   
-
 keycloak:
   loadBalancer: "keycloak"
   host: "identity.mad-world.eu"
