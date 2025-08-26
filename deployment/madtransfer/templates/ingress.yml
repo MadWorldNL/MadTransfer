@@ -7,6 +7,12 @@ metadata:
     cert-manager.io/cluster-issuer: "lets-encrypt"
     cert-manager.io/common-name: {{ .Values.certification.commonDomain }}
     cert-manager.io/subject-countries: {{ .Values.certification.country }}
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "X-Content-Type-Options: nosniff";
+      more_set_headers "X-Frame-Options: DENY";
+      more_set_headers "Referrer-Policy: same-origin";
+      more_set_headers "Content-Security-Policy: default-src 'self' https://{{ .Values.certification.commonDomain }} https://{{ .Values.madtransfer.api.host }} https://{{ .Values.madtransfer.web.host }} https://{{ .Values.admin.database.host }} https://{{ .Values.keycloak.host }}";
+      
 spec:
   {{- if .Values.clusterIssuer.enabled }}
   ingressClassName: nginx
