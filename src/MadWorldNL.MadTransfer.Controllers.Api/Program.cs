@@ -126,9 +126,14 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy(allowedCors, policy =>
     {
-        policy.AllowAnyOrigin();
+        var origins = builder.Configuration
+            .GetRequiredSection("Cors:Origins")
+            .Get<string[]>()!;
+        
+        policy.WithOrigins(origins);
         policy.AllowAnyHeader();
         policy.AllowAnyMethod();
+        policy.AllowCredentials();
     });
 });
 
