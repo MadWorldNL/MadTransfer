@@ -39,6 +39,10 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.database.secret.name }}
                   key: password
+            - name: Cors__Origins__[0]
+              value: {{ .Values.madtransfer.web.host }}
+            - name: Cors__Origins__[1]
+              value: {{ .Values.certification.commonDomain }}
             - name: StorageSettings__Host
               value: {{ .Values.storage.host }}
             - name: StorageSettings__BucketName
