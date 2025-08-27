@@ -170,6 +170,7 @@ builder.Services.AddScoped<IStatusIdentity, StatusIdentity>();
 
 var app = builder.Build();
 
+app.UseMiddleware<SecurityHeadersMiddleware>();
 app.UseCors(allowedCors);
 app.UseAuthentication();
 app.UseAuthorization();

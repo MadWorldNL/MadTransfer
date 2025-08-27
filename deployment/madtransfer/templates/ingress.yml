@@ -4,17 +4,10 @@ metadata:
   name: ingress
   namespace: {{ .Values.namespace }}
   annotations:
-    allow-snippet-annotations: "true"
     cert-manager.io/cluster-issuer: "lets-encrypt"
     cert-manager.io/common-name: {{ .Values.certification.commonDomain }}
     cert-manager.io/subject-countries: {{ .Values.certification.country }}
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      add_header "X-Content-Type-Options: nosniff" always;
-      add_header "X-Frame-Options: DENY" always;
-      add_header "Referrer-Policy: same-origin" always;
-      add_header "Content-Security-Policy: default-src 'self' https://{{ .Values.certification.commonDomain }} https://{{ .Values.madtransfer.api.host }} https://{{ .Values.madtransfer.web.host }} https://{{ .Values.admin.database.host }} https://{{ .Values.keycloak.host }}" always;
-      
 spec:
   {{- if .Values.clusterIssuer.enabled }}
   ingressClassName: nginx
