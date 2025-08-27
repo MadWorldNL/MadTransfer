@@ -15,7 +15,36 @@ data:
         "Url": "https://{{ .Values.madtransfer.api.host }}/"
       }
     }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ .Values.madtransfer.web.app }}-nginx-config"
+  namespace: {{ .Values.namespace }}
+data:
+  default.conf: |
+    server {
+        listen       80;
+        listen  [::]:80;
+        server_name  localhost;
     
+        add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
+        add_header X-Content-Type-Options "nosniff" always;
+        add_header X-Frame-Options "SAMEORIGIN" always;
+        add_header Referrer-Policy "no-referrer" always;
+        add_header Permissions-Policy "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()" always;
+        add_header Content-Security-Policy "default-src 'self' https://{{ .Values.madtransfer.api.host }}; script-src 'self' 'unsafe-eval' 'wasm-unsafe-eval'; connect-src 'self' https://{{ .Values.keycloak.host }}; img-src 'self' data:; frame-src 'self' https://{{ .Values.keycloak.host }}" always;
+    
+        location / {
+          root   /usr/share/nginx/html;
+          try_files $uri $uri/ /index.html =404;
+        }
+    
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+          root   /usr/share/nginx/html;
+        }
+    }
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -61,12 +90,19 @@ spec:
               mountPath: /usr/share/nginx/html/appsettings.json
               subPath: appsettings.json
               readOnly: true
+            - name: "{{ .Values.madtransfer.web.app }}-nginx-config-volume"
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: default.conf
+              readOnly: true
           ports:
             - containerPort: 8080
       volumes:
         - name: "{{ .Values.madtransfer.web.app }}-appsettings-config-volume"
           configMap:
             name: "{{ .Values.madtransfer.web.app }}-appsettings-config"
+        - name: "{{ .Values.madtransfer.web.app }}-nginx-config-volume"
+          configMap:
+            name: "{{ .Values.madtransfer.web.app }}-nginx-config"
 ---
 apiVersion: v1
 kind: Service

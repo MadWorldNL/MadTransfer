@@ -1,7 +1,7 @@
 namespace: madtransfer
 
 image:
-  tag: "v0.6.0"
+  tag: "v0.7.0"
 
 clusterIssuer:
   enabled: true
@@ -61,13 +61,12 @@ admin:
     
 storage:
   name: "objectstorage"
-  host: "https://s3.de.io.cloud.ovh.net"
+  host: "https://s3.de.io.cloud.ovh.net/"
   accesskey: "nonExistingKey1234"
   secretkey: "nonExistingKey1234"
   bucket:
     name: "madtransfer-production"
   
-
 keycloak:
   loadBalancer: "keycloak"
   host: "identity.mad-world.eu"

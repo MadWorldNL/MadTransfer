@@ -14,6 +14,12 @@ docker compose --env-file docker-compose.env up --build --force-recreate
 
 If you want to log in to the app, follow the instructions in the: [Authentication Server Guide](./docs/authentication-server.md)
 
+## Test guide
+Run the tests from the repository root with Docker running:
+```bash
+dotnet test
+```
+
 ## Acknowledge
 This project leverages several outstanding open-source tools and platforms. We are grateful to the communities behind these technologies for their continuous innovation and support:
 - [Cloud Native PG](https://cloudnative-pg.io/)\
