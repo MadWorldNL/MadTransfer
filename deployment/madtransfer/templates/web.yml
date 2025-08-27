@@ -33,7 +33,7 @@ data:
         add_header X-Frame-Options "SAMEORIGIN" always;
         add_header Referrer-Policy "no-referrer" always;
         add_header Permissions-Policy "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()" always;
-        add_header Content-Security-Policy "default-src 'self' https://{{ .Values.madtransfer.api.host }}; script-src 'self' 'unsafe-eval' 'wasm-unsafe-eval'; connect-src 'self' https://{{ .Values.keycloak.host }}; img-src 'self' data:; frame-src 'self' https://{{ .Values.keycloak.host }}" always;
+        add_header Content-Security-Policy "default-src 'self' https://{{ .Values.madtransfer.api.host }}; script-src 'self' 'unsafe-eval' 'wasm-unsafe-eval'; connect-src 'self' https://{{ .Values.madtransfer.api.host }} https://{{ .Values.keycloak.host }}; img-src 'self' data:; frame-src 'self' https://{{ .Values.keycloak.host }}" always;
     
         location / {
           root   /usr/share/nginx/html;
