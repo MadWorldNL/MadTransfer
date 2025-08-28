@@ -39,6 +39,8 @@ spec:
       owner: app
       secret:
         name: postgres-secret
+      postInitDB:
+        - CREATE DATABASE keycloak OWNER app
   storage:
     storageClass: {{ .Values.database.storageclass }}
     size: {{ .Values.database.size.single }}
