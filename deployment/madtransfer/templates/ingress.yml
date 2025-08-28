@@ -8,6 +8,7 @@ metadata:
     cert-manager.io/common-name: {{ .Values.certification.commonDomain }}
     cert-manager.io/subject-countries: {{ .Values.certification.country }}
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
 spec:
   {{- if .Values.clusterIssuer.enabled }}
   ingressClassName: nginx
