@@ -68,6 +68,13 @@ spec:
       containers:
         - name: {{ .Values.madtransfer.web.name }}
           image: {{ .Values.madtransfer.web.image }}:{{ .Values.image.tag }}
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
           env:
             - name: DatabaseSettings__Host
               value: "postgres-rw"
