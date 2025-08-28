@@ -20,6 +20,13 @@ spec:
       containers:
         - name: {{ .Values.madtransfer.api.name }}
           image: {{ .Values.madtransfer.api.image }}:{{ .Values.image.tag }}
+          resources:
+            requests:
+              cpu: 100m
+              memory: 500Mi
+            limits:
+              cpu: 100m
+              memory: 500Mi
           env:
             - name: Authentication__Authority
               value: https://{{ .Values.keycloak.host }}/realms/madworld
