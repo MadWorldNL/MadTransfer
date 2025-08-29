@@ -72,7 +72,7 @@ keycloak:
   host: "identity.mad-world.eu"
   
 logger:
-  enabled: false
+  enabled: true
   deployment: "logger-deployment"
   loadBalancer: "logger-balancer"
   app: "logger"

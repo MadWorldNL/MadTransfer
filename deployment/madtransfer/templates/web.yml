@@ -54,7 +54,7 @@ metadata:
   labels:
     app: {{ .Values.madtransfer.api.app }}
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: {{ .Values.madtransfer.web.app }}
