@@ -40,6 +40,13 @@ spec:
       containers:
         - name: {{ .Values.admin.database.name }}
           image: {{ .Values.admin.database.image }}:{{ .Values.admin.database.tag }}
+          resources:
+            requests:
+              cpu: 5m
+              memory: 300Mi
+            limits:
+              cpu: 5m
+              memory: 300Mi
           env:
             - name: PGADMIN_DEFAULT_EMAIL
               valueFrom:
