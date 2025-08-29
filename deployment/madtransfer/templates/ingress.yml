@@ -19,6 +19,7 @@ spec:
         - {{ .Values.madtransfer.web.host }}
         - {{ .Values.admin.database.host }}
         - {{ .Values.keycloak.host }}
+        - {{ .Values.logger.host }}
       secretName: madworld-tls
   {{ end }}
   rules:
@@ -70,5 +71,15 @@ spec:
             backend:
               service:
                 name: {{ .Values.admin.database.loadBalancer }}
+                port:
+                  number: 80
+    - host: {{ .Values.logger.host }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.logger.loadBalancer }}
                 port:
                   number: 80
