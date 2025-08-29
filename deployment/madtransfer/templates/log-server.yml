@@ -48,6 +48,20 @@ spec:
         - name: logger-data
           persistentVolumeClaim:
             claimName: {{ .Values.logger.persistentVolumeClaim.name }}
-          
+{{ end }}       
 ---
-{{ end }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.logger.loadBalancer }}
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: {{ .Values.logger.app }}
+    task: {{ .Values.logger.name }}
+  ports:
+    - protocol: TCP
+      name: http
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
