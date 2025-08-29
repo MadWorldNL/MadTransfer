@@ -44,7 +44,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          dotnet-sonarscanner begin /k:"MadWorldNL_MadTransfer" /o:"madworldnl" /d:sonar.token="${{ secrets.SONAR_TOKEN }} /d:sonar.coverage.exclusions="**Test*.cs" /d:sonar.exclusions="**/MadWorldNL.MadTransfer.Controllers.Web/wwwroot/lib/**"
+          dotnet-sonarscanner begin /k:"MadWorldNL_MadTransfer" /o:"madworldnl" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.coverage.exclusions="**Test*.cs" /d:sonar.exclusions="**/MadWorldNL.MadTransfer.Controllers.Web/wwwroot/lib/**"
           dotnet restore
           dotnet build --no-restore -c Release
           dotnet test --no-build --no-restore -c Release --blame-hang-timeout 5min
