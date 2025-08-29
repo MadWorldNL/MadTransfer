@@ -42,10 +42,10 @@ spec:
           image: {{ .Values.admin.database.image }}:{{ .Values.admin.database.tag }}
           resources:
             requests:
-              cpu: 5m
+              cpu: 20m
               memory: 300Mi
             limits:
-              cpu: 5m
+              cpu: 20m
               memory: 300Mi
           env:
             - name: PGADMIN_DEFAULT_EMAIL
