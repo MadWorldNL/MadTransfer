@@ -70,3 +70,17 @@ storage:
 keycloak:
   loadBalancer: "keycloak"
   host: "identity.mad-world.eu"
+  
+logger:
+  enabled: false
+  deployment: "logger-deployment"
+  loadBalancer: "logger-balancer"
+  app: "logger"
+  name: "logger"
+  image: "datalust/seq"
+  tag: "2025"
+  host: "log.mad-world.eu"
+  defaultpassword: "nonExistingKey1234"
+  persistentVolumeClaim:
+    name: "logger-pvc"
+    size: "5Gi"

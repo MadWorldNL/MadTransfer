@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .Values.logger.persistentVolumeClaim.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.logger.persistentVolumeClaim.size }} 
+---
+{{- if .Values.logger.enabled }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.logger.deployment }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.logger.app }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.logger.app }}
+      task: {{ .Values.logger.app }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.logger.app }}
+        task: {{ .Values.logger.app }}
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: {{ .Values.logger.name }}
+          image: {{ .Values.logger.image }}:{{ .Values.logger.tag }}
+          env:
+            - name: ACCEPT_EULA
+              value: "Y"
+            - name: SEQ_FIRSTRUN_ADMINPASSWORD
+              value: {{ .Values.logger.defaultpassword }}
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: logger-data
+              mountPath: /data   # path inside the container
+      volumes:
+        - name: logger-data
+          persistentVolumeClaim:
+            claimName: {{ .Values.logger.persistentVolumeClaim.name }}
+          
+---
+{{ end }}
