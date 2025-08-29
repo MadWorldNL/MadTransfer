@@ -15,6 +15,10 @@ jobs:
           docker version
           docker pull postgres:17 --platform=linux/amd64
           docker pull scireum/s3-ninja:8.5.0 --platform=linux/amd64
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
