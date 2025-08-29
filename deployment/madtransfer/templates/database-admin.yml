@@ -37,6 +37,7 @@ spec:
         app: {{ .Values.admin.database.app }}
         task: {{ .Values.admin.database.name }}
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: {{ .Values.admin.database.name }}
           image: {{ .Values.admin.database.image }}:{{ .Values.admin.database.tag }}
