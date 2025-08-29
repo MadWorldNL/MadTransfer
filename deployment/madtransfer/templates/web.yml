@@ -65,6 +65,7 @@ spec:
         app: {{ .Values.madtransfer.web.app }}
         task: {{ .Values.madtransfer.web.name }}
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: {{ .Values.madtransfer.web.name }}
           image: {{ .Values.madtransfer.web.image }}:{{ .Values.image.tag }}

@@ -1,3 +1,5 @@
+[![.NET CI](https://github.com/MadWorldNL/MadTransfer/actions/workflows/dotnet-ci.yml/badge.svg?branch=main)](https://github.com/MadWorldNL/MadTransfer/actions/workflows/dotnet-ci.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=MadWorldNL_MadTransfer&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=MadWorldNL_MadTransfer)
 # MadTransfer
 This is a lightweight file sharing platform that allows anyone to upload a file and receive a unique download link. You can then share this link with others so they can download the file directly.
 

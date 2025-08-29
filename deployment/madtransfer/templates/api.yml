@@ -17,6 +17,7 @@ spec:
         app: {{ .Values.madtransfer.api.app }}
         task: {{ .Values.madtransfer.api.name }}
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: {{ .Values.madtransfer.api.name }}
           image: {{ .Values.madtransfer.api.image }}:{{ .Values.image.tag }}
