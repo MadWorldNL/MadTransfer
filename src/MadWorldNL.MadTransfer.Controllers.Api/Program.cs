@@ -1,6 +1,7 @@
 using System.Threading.RateLimiting;
 using JetBrains.Annotations;
 using MadWorldNL.MadTransfer;
+using MadWorldNL.MadTransfer.Builder;
 using MadWorldNL.MadTransfer.Configurations;
 using MadWorldNL.MadTransfer.Databases;
 using MadWorldNL.MadTransfer.Endpoints;
@@ -33,23 +34,7 @@ if (builder.Configuration.GetValue<bool>("SerilogSettings:Active"))
         configuration.ReadFrom.Configuration(context.Configuration));   
 }
 
-builder.Services.AddOpenTelemetry()
-    .ConfigureResource(resource => resource.AddService(builder.Environment.ApplicationName))
-    .WithTracing(tracing => tracing
-        .AddHttpClientInstrumentation()
-        .AddAspNetCoreInstrumentation()
-        .AddNpgsql())
-    .WithMetrics(metrics => metrics
-        .AddHttpClientInstrumentation()
-        .AddAspNetCoreInstrumentation());
-
-builder.Logging.AddOpenTelemetry(options =>
-{
-    options.IncludeScopes = true;
-    options.IncludeFormattedMessage = true;
-});
-
-builder.Services.AddOpenTelemetry().UseOtlpExporter();
+builder.AddOpenTelemetryForDevelopment();
 
 var authenticationSettings = builder.Configuration
     .GetRequiredSection(AuthenticationSettings.Key)
