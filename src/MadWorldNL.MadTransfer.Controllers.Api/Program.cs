@@ -67,5 +67,4 @@ await app.RunAsync();
 [UsedImplicitly]
 public partial class Program
 {
-    private Program() {}
 }
