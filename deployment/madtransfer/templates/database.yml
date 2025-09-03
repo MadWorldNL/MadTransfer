@@ -29,11 +29,11 @@ spec:
   resources:
     requests:
       memory: "512Mi"
-      cpu: 150
+      cpu: 300m
       ephemeral-storage: "2Gi" 
     limits:
       memory: "512Mi"
-      cpu: 150m
+      cpu: 300m
       ephemeral-storage: "2Gi"
   bootstrap:
     initdb:
