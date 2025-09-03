@@ -1,7 +1,7 @@
 namespace: madtransfer-development
 
 image:
-  tag: "v0.9.0"
+  tag: "v0.9.1"
 
 clusterIssuer:
   enabled: false
