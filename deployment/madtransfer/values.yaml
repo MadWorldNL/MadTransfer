@@ -84,3 +84,7 @@ logger:
   persistentVolumeClaim:
     name: "logger-pvc"
     size: "5Gi"
+  secret:
+    name: "logger-secret"
+    apiKeys:
+      api: "nonExistingKey1234"

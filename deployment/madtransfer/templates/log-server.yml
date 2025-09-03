@@ -1,3 +1,21 @@
+{{- $loggerSecrets := (lookup "v1" "Secret" .Values.namespace .Values.logger.secret.name ) -}}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Values.logger.secret.name }}
+  namespace: {{ .Values.namespace }}
+type: Opaque
+data:
+{{- if and $loggerSecrets $loggerSecrets.data }}
+  {{- if $loggerSecrets.data.apikeyapi }}
+  apikeyapi: {{ $loggerSecrets.data.apikeyapi }}
+    {{- else }}
+  apikeyapi: {{ .Values.logger.secret.apiKeys.api | b64enc }}
+    {{- end }}
+  {{- else }}
+  apikeyapi: {{ .Values.logger.secret.apiKeys.api | b64enc }}
+{{- end }}
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:

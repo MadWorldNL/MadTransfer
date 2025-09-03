@@ -51,6 +51,13 @@ spec:
               value: https://{{ .Values.madtransfer.web.host }}
             - name: Cors__Origins__[1]
               value: https://{{ .Values.certification.commonDomain }}
+            - name: OpenTelemetrySettings__Seq__Url
+              value: http://{{ .Values.logger.loadBalancer }}
+            - name: OpenTelemetrySettings__Seq__ApiKey
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.logger.secret.name }}
+                  key: apikeyapi
             - name: StorageSettings__Host
               value: {{ .Values.storage.host }}
             - name: StorageSettings__BucketName
