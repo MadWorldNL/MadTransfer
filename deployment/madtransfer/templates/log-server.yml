@@ -56,9 +56,11 @@ spec:
             requests:
               memory: "200Mi"
               cpu: 20m
+              ephemeral-storage: "6Gi"
             limits:
               memory: "200Mi"
               cpu: 20m
+              ephemeral-storage: "6Gi"
           env:
             - name: ACCEPT_EULA
               value: "Y"

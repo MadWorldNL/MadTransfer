@@ -25,9 +25,11 @@ spec:
             requests:
               cpu: 100m
               memory: 500Mi
+              ephemeral-storage: "1Gi"
             limits:
               cpu: 100m
               memory: 500Mi
+              ephemeral-storage: "1Gi"
           env:
             - name: Authentication__Authority
               value: https://{{ .Values.keycloak.host }}/realms/madworld

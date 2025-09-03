@@ -45,9 +45,11 @@ spec:
             requests:
               cpu: 20m
               memory: 300Mi
+              ephemeral-storage: "1Gi"
             limits:
               cpu: 20m
               memory: 300Mi
+              ephemeral-storage: "1Gi"
           env:
             - name: PGADMIN_DEFAULT_EMAIL
               valueFrom:
