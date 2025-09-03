@@ -1,6 +1,8 @@
 ﻿FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 ARG BUILDPLATFORM
-RUN apt-get update && apt-get install -y curl
+RUN apt-get update
+RUN apt-get --no-install-recommends install -y curl
+
 USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
@@ -16,12 +18,12 @@ COPY ["Directory.Packages.props", "./"]
 COPY ["src/MadWorldNL.MadTransfer.Controllers.Api/Api.csproj", "MadWorldNL.MadTransfer.Controllers.Api/"]
 RUN dotnet restore "MadWorldNL.MadTransfer.Controllers.Api/Api.csproj"
 COPY ["src/", "src/"]
-WORKDIR "src/MadWorldNL.MadTransfer.Controllers.Api"
-RUN dotnet build "./Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR /src/MadWorldNL.MadTransfer.Controllers.Api
+RUN dotnet build "./Api.csproj" -c "$BUILD_CONFIGURATION" -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./Api.csproj" -c "$BUILD_CONFIGURATION" -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
