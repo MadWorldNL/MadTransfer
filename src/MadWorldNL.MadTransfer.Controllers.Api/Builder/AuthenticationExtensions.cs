@@ -50,7 +50,7 @@ internal static class AuthenticationExtensions
                 {
                     OnAuthenticationFailed = context =>
                     {
-                        Log.Logger.Information("Authentication failed: {ContextException}", context.Exception);
+                        Log.Logger.Information(context.Exception, "Authentication failed for: {IdentityName}", context.Principal?.Identity?.Name ?? "Unknown");
                         return Task.CompletedTask;
                     },
                     OnTokenValidated = context =>
