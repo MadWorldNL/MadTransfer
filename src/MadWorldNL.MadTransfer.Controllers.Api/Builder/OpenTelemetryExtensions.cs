@@ -33,7 +33,7 @@ internal static class OpenTelemetryExtensions
                 {
                     exporter.Endpoint = new Uri("http://localhost:5341/ingest/otlp/v1/logs");
                     exporter.Protocol = OtlpExportProtocol.HttpProtobuf;
-                    exporter.Headers = "X-Seq-ApiKey=abcde12345";
+                    exporter.Headers = "X-Seq-ApiKey=Qaf69jq5DylxRWWo1lmc";
                 });
             }
         });
