@@ -27,7 +27,7 @@ public class ApiWebApplicationFactory : WebApplicationFactory<Program>
             .WithImage("postgres:17")
             .WithUsername(DbUserName)
             .WithPassword(DbPassword)
-            .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(DbPort))
+            .WithWaitStrategy(Wait.ForUnixContainer().UntilInternalTcpPortIsAvailable(DbPort))
             .Build();
 
     private const int StoragePort = 9000;
@@ -35,7 +35,7 @@ public class ApiWebApplicationFactory : WebApplicationFactory<Program>
     private readonly IContainer _s3Ninja = new ContainerBuilder()
         .WithImage("scireum/s3-ninja:8.5.0")
         .WithPortBinding(StoragePort, true)
-        .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(StoragePort))
+        .WithWaitStrategy(Wait.ForUnixContainer().UntilInternalTcpPortIsAvailable(StoragePort))
         .Build();
 
     private ITestOutputHelper? _testOutputHelper;
