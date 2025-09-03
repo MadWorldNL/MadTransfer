@@ -54,13 +54,13 @@ spec:
           image: {{ .Values.logger.image }}:{{ .Values.logger.tag }}
           resources:
             requests:
-              memory: "200Mi"
-              cpu: 20m
-              ephemeral-storage: "6Gi"
+              memory: "500Mi"
+              cpu: 500m
+              ephemeral-storage: "5Gi"
             limits:
-              memory: "200Mi"
-              cpu: 20m
-              ephemeral-storage: "6Gi"
+              memory: "500Mi"
+              cpu: 500m
+              ephemeral-storage: "5Gi"
           env:
             - name: ACCEPT_EULA
               value: "Y"
