@@ -30,11 +30,11 @@ spec:
     requests:
       memory: "512Mi"
       cpu: 150
-      ephemeral-storage: .Values.database.size.single  
+      ephemeral-storage: "2Gi" 
     limits:
       memory: "512Mi"
       cpu: 150m
-      ephemeral-storage: .Values.database.size.single
+      ephemeral-storage: "2Gi"
   bootstrap:
     initdb:
       database: {{ .Values.database.dbName }}
