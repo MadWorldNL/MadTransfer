@@ -18,7 +18,7 @@ COPY ["Directory.Packages.props", "./"]
 COPY ["src/MadWorldNL.MadTransfer.Controllers.Api/Api.csproj", "MadWorldNL.MadTransfer.Controllers.Api/"]
 RUN dotnet restore "MadWorldNL.MadTransfer.Controllers.Api/Api.csproj"
 COPY ["src/", "src/"]
-WORKDIR /src/MadWorldNL.MadTransfer.Controllers.Api
+WORKDIR /src/src/MadWorldNL.MadTransfer.Controllers.Api
 RUN dotnet build "./Api.csproj" -c "$BUILD_CONFIGURATION" -o /app/build
 
 FROM build AS publish
