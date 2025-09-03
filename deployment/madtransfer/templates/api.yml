@@ -53,6 +53,8 @@ spec:
               value: https://{{ .Values.madtransfer.web.host }}
             - name: Cors__Origins__[1]
               value: https://{{ .Values.certification.commonDomain }}
+            - name: OpenTelemetrySettings__Mode
+              value: FullStack
             - name: OpenTelemetrySettings__Seq__Url
               value: http://{{ .Values.logger.loadBalancer }}
             - name: OpenTelemetrySettings__Seq__ApiKey
