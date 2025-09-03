@@ -49,16 +49,16 @@ spec:
         task: {{ .Values.logger.app }}
     spec:
       automountServiceAccountToken: false
-      resources:
-        requests:
-          memory: "200Mi"
-          cpu: 20m
-        limits:
-          memory: "200Mi"
-          cpu: 20m
       containers:
         - name: {{ .Values.logger.name }}
           image: {{ .Values.logger.image }}:{{ .Values.logger.tag }}
+          resources:
+            requests:
+              memory: "200Mi"
+              cpu: 20m
+            limits:
+              memory: "200Mi"
+              cpu: 20m
           env:
             - name: ACCEPT_EULA
               value: "Y"
