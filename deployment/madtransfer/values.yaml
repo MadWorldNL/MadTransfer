@@ -1,7 +1,7 @@
 namespace: madtransfer
 
 image:
-  tag: "v0.8.0"
+  tag: "v0.9.0"
 
 clusterIssuer:
   enabled: true
@@ -72,7 +72,7 @@ keycloak:
   host: "identity.mad-world.eu"
   
 logger:
-  enabled: false
+  enabled: true
   deployment: "logger-deployment"
   loadBalancer: "logger-balancer"
   app: "logger"
@@ -84,3 +84,7 @@ logger:
   persistentVolumeClaim:
     name: "logger-pvc"
     size: "5Gi"
+  secret:
+    name: "logger-secret"
+    apiKeys:
+      api: "nonExistingKey1234"

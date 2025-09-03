@@ -29,10 +29,12 @@ spec:
   resources:
     requests:
       memory: "512Mi"
-      cpu: 150m
+      cpu: 150
+      ephemeral-storage: "2Gi" 
     limits:
       memory: "512Mi"
       cpu: 150m
+      ephemeral-storage: "2Gi"
   bootstrap:
     initdb:
       database: {{ .Values.database.dbName }}

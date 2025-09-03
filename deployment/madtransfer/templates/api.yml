@@ -6,7 +6,7 @@ metadata:
   labels:
     app: {{ .Values.madtransfer.api.app }}
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: {{ .Values.madtransfer.api.app }}
@@ -25,9 +25,11 @@ spec:
             requests:
               cpu: 100m
               memory: 500Mi
+              ephemeral-storage: "1Gi"
             limits:
               cpu: 100m
               memory: 500Mi
+              ephemeral-storage: "1Gi"
           env:
             - name: Authentication__Authority
               value: https://{{ .Values.keycloak.host }}/realms/madworld
@@ -51,6 +53,13 @@ spec:
               value: https://{{ .Values.madtransfer.web.host }}
             - name: Cors__Origins__[1]
               value: https://{{ .Values.certification.commonDomain }}
+            - name: OpenTelemetrySettings__Seq__Url
+              value: http://{{ .Values.logger.loadBalancer }}
+            - name: OpenTelemetrySettings__Seq__ApiKey
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.logger.secret.name }}
+                  key: apikeyapi
             - name: StorageSettings__Host
               value: {{ .Values.storage.host }}
             - name: StorageSettings__BucketName

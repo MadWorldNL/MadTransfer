@@ -54,7 +54,7 @@ metadata:
   labels:
     app: {{ .Values.madtransfer.api.app }}
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: {{ .Values.madtransfer.web.app }}
@@ -73,9 +73,11 @@ spec:
             requests:
               cpu: 100m
               memory: 100Mi
+              ephemeral-storage: "1Gi"
             limits:
               cpu: 100m
               memory: 100Mi
+              ephemeral-storage: "1Gi"
           env:
             - name: DatabaseSettings__Host
               value: "postgres-rw"

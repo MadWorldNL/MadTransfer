@@ -1,3 +1,21 @@
+{{- $loggerSecrets := (lookup "v1" "Secret" .Values.namespace .Values.logger.secret.name ) -}}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Values.logger.secret.name }}
+  namespace: {{ .Values.namespace }}
+type: Opaque
+data:
+{{- if and $loggerSecrets $loggerSecrets.data }}
+  {{- if $loggerSecrets.data.apikeyapi }}
+  apikeyapi: {{ $loggerSecrets.data.apikeyapi }}
+    {{- else }}
+  apikeyapi: {{ .Values.logger.secret.apiKeys.api | b64enc }}
+    {{- end }}
+  {{- else }}
+  apikeyapi: {{ .Values.logger.secret.apiKeys.api | b64enc }}
+{{- end }}
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -34,6 +52,15 @@ spec:
       containers:
         - name: {{ .Values.logger.name }}
           image: {{ .Values.logger.image }}:{{ .Values.logger.tag }}
+          resources:
+            requests:
+              memory: "200Mi"
+              cpu: 20m
+              ephemeral-storage: "6Gi"
+            limits:
+              memory: "200Mi"
+              cpu: 20m
+              ephemeral-storage: "6Gi"
           env:
             - name: ACCEPT_EULA
               value: "Y"

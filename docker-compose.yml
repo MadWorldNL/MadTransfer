@@ -18,10 +18,13 @@ services:
       retries: 3
       start_period: 40s
     environment:
+      - ASPNETCORE_ENVIRONMENT=Development
       - DatabaseSettings__Host=database
       - StorageSettings__Host=http://storage-server:9444
       - Authentication__Authority=http://host.docker.internal:5555/realms/madworld
       - Authentication__ValidateUser=false
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://aspire-dashboard:18889
+      - OTEL_EXPORTER_OTLP_PROTOCOL=grpc
     ports:
       - "3000:8080"
       - "3001:8081"
@@ -95,11 +98,30 @@ services:
       - "5555:8080"
     volumes:
       - keycloak-data:/opt/keycloak/data
+  aspire-dashboard:
+    container_name: aspire-dashboard
+    image: mcr.microsoft.com/dotnet/aspire-dashboard:9.0
+    ports:
+      - 18888:18888
+      - 18889:18889
+      - 18890:18890
+  log-server:
+    image: datalust/seq:2025
+    container_name: log-server
+    profiles: [ open-telemetry ]
+    environment:
+      ACCEPT_EULA: "Y"
+      SEQ_FIRSTRUN_ADMINPASSWORD: "MadPassword1234!" # Dev Password: MadPassword4321!
+    ports:
+      - "5341:80"
+    volumes:
+      - log-data:/data
 volumes:
   postgres-data:
   pgadmin-data:
   keycloak-data:
   storage-data:
+  log-data:
 networks:
   api:
   postgres:
