@@ -1,26 +1,8 @@
-using System.Threading.RateLimiting;
 using JetBrains.Annotations;
 using MadWorldNL.MadTransfer;
 using MadWorldNL.MadTransfer.Builder;
-using MadWorldNL.MadTransfer.Configurations;
 using MadWorldNL.MadTransfer.Endpoints;
-using MadWorldNL.MadTransfer.Files;
-using MadWorldNL.MadTransfer.Files.Download;
-using MadWorldNL.MadTransfer.Files.GetInfo;
-using MadWorldNL.MadTransfer.Files.Upload;
-using MadWorldNL.MadTransfer.Identities;
-using MadWorldNL.MadTransfer.Status;
 using MadWorldNL.MadTransfer.Web;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.JsonWebTokens;
-using Microsoft.IdentityModel.Tokens;
-using Npgsql;
-using OpenTelemetry;
-using OpenTelemetry.Metrics;
-using OpenTelemetry.Resources;
-using OpenTelemetry.Trace;
 using Serilog;
 
 const string allowedCors = nameof(allowedCors);
@@ -49,20 +31,7 @@ builder.Services.Configure<StorageSettings>(
 
 builder.Services.AddHttpClient();
 
-// TODO: Move use-cases
-builder.Services.AddScoped<GetInfoUserFileUseCase>();
-builder.Services.AddScoped<DownloadUserFileUseCase>();
-builder.Services.AddScoped<UploadUserFileUseCase>();
-
-builder.Services.AddScoped<CheckStatusUseCase>();
-
-// TODO: Move Database & Storage
-builder.Services.AddScoped<IFileRepository, FileRepository>();
-builder.Services.AddScoped<IFileStorage, FileStorage>();
-
-builder.Services.AddScoped<IStatusRepository, StatusRepository>();
-builder.Services.AddScoped<IStatusStorage, StatusStorage>();
-builder.Services.AddScoped<IStatusIdentity, StatusIdentity>();
+builder.AddApplication();
 
 var app = builder.Build();
 
