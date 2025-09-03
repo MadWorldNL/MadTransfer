@@ -1,5 +1,7 @@
 using Npgsql;
 using OpenTelemetry;
+using OpenTelemetry.Exporter;
+using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -8,9 +10,9 @@ namespace MadWorldNL.MadTransfer.Builder;
 
 internal static class OpenTelemetryExtensions
 {
-    internal static void AddOpenTelemetryForDevelopment(this WebApplicationBuilder builder)
+    internal static void AddDefaultOpenTelemetry(this WebApplicationBuilder builder)
     {
-        builder.Services.AddOpenTelemetry()
+        var openTelemetryBuilder = builder.Services.AddOpenTelemetry()
             .ConfigureResource(resource => resource.AddService(builder.Environment.ApplicationName))
             .WithTracing(tracing => tracing
                 .AddHttpClientInstrumentation()
@@ -24,13 +26,21 @@ internal static class OpenTelemetryExtensions
         {
             options.IncludeScopes = true;
             options.IncludeFormattedMessage = true;
+
+            if (builder.Environment.IsProduction())
+            {
+                options.AddOtlpExporter(exporter =>
+                {
+                    exporter.Endpoint = new Uri("http://localhost:5341/ingest/otlp/v1/logs");
+                    exporter.Protocol = OtlpExportProtocol.HttpProtobuf;
+                    exporter.Headers = "X-Seq-ApiKey=abcde12345";
+                });
+            }
         });
 
-        builder.Services.AddOpenTelemetry().UseOtlpExporter();
-    }
-
-    internal static void AddOpenTelemetryForProduction(this WebApplicationBuilder builder)
-    {
-        
+        if (builder.Environment.IsDevelopment())
+        {
+            openTelemetryBuilder.UseOtlpExporter();
+        }
     }
 }
