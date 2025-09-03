@@ -1,3 +1,4 @@
+using MadWorldNL.MadTransfer.Configurations;
 using Npgsql;
 using OpenTelemetry;
 using OpenTelemetry.Exporter;
@@ -12,6 +13,10 @@ internal static class OpenTelemetryExtensions
 {
     internal static void AddDefaultOpenTelemetry(this WebApplicationBuilder builder)
     {
+        var openTelemetrySettings = builder.Configuration
+            .GetRequiredSection(OpenTelemetrySettings.Key)
+            .Get<OpenTelemetrySettings>()!;
+        
         var openTelemetryBuilder = builder.Services.AddOpenTelemetry()
             .ConfigureResource(resource => resource.AddService(builder.Environment.ApplicationName))
             .WithTracing(tracing => tracing
@@ -26,19 +31,19 @@ internal static class OpenTelemetryExtensions
         {
             options.IncludeScopes = true;
             options.IncludeFormattedMessage = true;
-
-            if (builder.Environment.IsProduction())
-            {
-                options.AddOtlpExporter(exporter =>
+            
+            if (openTelemetrySettings.Mode == OpenTelemetryMode.FullStack)
+            {                                                       
+                options.AddOtlpExporter(exporter =>       
                 {
-                    exporter.Endpoint = new Uri("http://localhost:5341/ingest/otlp/v1/logs");
+                    exporter.Endpoint = new Uri($"{openTelemetrySettings.Seq.Url}/ingest/otlp/v1/logs");
                     exporter.Protocol = OtlpExportProtocol.HttpProtobuf;
-                    exporter.Headers = "X-Seq-ApiKey=Qaf69jq5DylxRWWo1lmc";
+                    exporter.Headers = $"X-Seq-ApiKey={openTelemetrySettings.Seq.ApiKey}";
                 });
             }
         });
 
-        if (builder.Environment.IsDevelopment())
+        if (openTelemetrySettings.Mode == OpenTelemetryMode.Aspire)
         {
             openTelemetryBuilder.UseOtlpExporter();
         }
