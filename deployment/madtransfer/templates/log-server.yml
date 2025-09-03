@@ -49,6 +49,13 @@ spec:
         task: {{ .Values.logger.app }}
     spec:
       automountServiceAccountToken: false
+      resources:
+        requests:
+          memory: "200Mi"
+          cpu: 20m
+        limits:
+          memory: "200Mi"
+          cpu: 20m
       containers:
         - name: {{ .Values.logger.name }}
           image: {{ .Values.logger.image }}:{{ .Values.logger.tag }}
