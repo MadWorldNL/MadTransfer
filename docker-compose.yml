@@ -18,6 +18,7 @@ services:
       retries: 3
       start_period: 40s
     environment:
+      - ASPNETCORE_ENVIRONMENT=Development
       - DatabaseSettings__Host=database
       - StorageSettings__Host=http://storage-server:9444
       - Authentication__Authority=http://host.docker.internal:5555/realms/madworld
