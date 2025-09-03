@@ -6,9 +6,9 @@ using OpenTelemetry.Trace;
 
 namespace MadWorldNL.MadTransfer.Builder;
 
-public static class OpenTelemetryExtensions
+internal static class OpenTelemetryExtensions
 {
-    public static void AddOpenTelemetryForDevelopment(this WebApplicationBuilder builder)
+    internal static void AddOpenTelemetryForDevelopment(this WebApplicationBuilder builder)
     {
         builder.Services.AddOpenTelemetry()
             .ConfigureResource(resource => resource.AddService(builder.Environment.ApplicationName))

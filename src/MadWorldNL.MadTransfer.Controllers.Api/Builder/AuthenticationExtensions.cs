@@ -7,9 +7,9 @@ using Serilog;
 
 namespace MadWorldNL.MadTransfer.Builder;
 
-public static class AuthenticationExtensions
+internal static class AuthenticationExtensions
 {
-    public static void AddDefaultAuthentication(this WebApplicationBuilder builder)
+    internal static void AddDefaultAuthentication(this WebApplicationBuilder builder)
     {
         var authenticationSettings = builder.Configuration
             .GetRequiredSection(AuthenticationSettings.Key)

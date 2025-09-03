@@ -3,7 +3,6 @@ using JetBrains.Annotations;
 using MadWorldNL.MadTransfer;
 using MadWorldNL.MadTransfer.Builder;
 using MadWorldNL.MadTransfer.Configurations;
-using MadWorldNL.MadTransfer.Databases;
 using MadWorldNL.MadTransfer.Endpoints;
 using MadWorldNL.MadTransfer.Files;
 using MadWorldNL.MadTransfer.Files.Download;
@@ -36,79 +35,14 @@ if (builder.Configuration.GetValue<bool>("SerilogSettings:Active"))
 
 builder.AddOpenTelemetryForDevelopment();
 builder.AddDefaultAuthentication();
-
-builder.Services.AddRateLimiter(options =>
-{
-    options.OnRejected = async (context, token) =>
-    {
-        const string retryAfterSeconds = "60";
-        
-        context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
-        context.HttpContext.Response.ContentType = "application/json";
-        context.HttpContext.Response.Headers.RetryAfter = retryAfterSeconds;
-        
-        await context.HttpContext.Response.WriteAsync(
-            $"{{\"error\":\"Too Many Requests\",\"message\":\"Try again in {retryAfterSeconds} seconds.\"}}", token);
-    };
-    
-    options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
-    {
-        var ip = httpContext.GetIpAddress();
-
-        return RateLimitPartition.GetTokenBucketLimiter(ip, _ => new TokenBucketRateLimiterOptions
-        {
-            TokenLimit = 100,
-            QueueLimit = 0,
-            ReplenishmentPeriod = TimeSpan.FromMinutes(1),
-            TokensPerPeriod = 100,
-            AutoReplenishment = true,
-        });
-    });
-    
-    options.AddPolicy(RateLimiterNames.PerUserPolicy, httpContext =>
-    {
-        var userId = httpContext.User.GetUserId();
-
-        return RateLimitPartition.GetFixedWindowLimiter(userId, _ => new FixedWindowRateLimiterOptions
-        {
-            PermitLimit = 10,
-            Window = TimeSpan.FromSeconds(10),
-            QueueLimit = 0,
-            QueueProcessingOrder = QueueProcessingOrder.OldestFirst
-        });
-    });
-});
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(allowedCors, policy =>
-    {
-        var origins = builder.Configuration
-            .GetRequiredSection("Cors:Origins")
-            .Get<string[]>()!;
-        
-        policy.WithOrigins(origins);
-        policy.AllowAnyHeader();
-        policy.AllowAnyMethod();
-        policy.AllowCredentials();
-    });
-});
+builder.AddDefaultRateLimiter();
+builder.AddDefaultCors(allowedCors);
 
 builder.Services.AddOpenApi();
 builder.Services.AddHealthChecks();
 
 builder.Services.AddAntiforgery();
-
-var databaseSettings = builder.Configuration
-    .GetRequiredSection(DatabaseSettings.Key)
-    .Get<DatabaseSettings>()!;
-
-builder.Services.AddDbContextPool<MadTransferContext>(opt =>
-    opt.UseNpgsql(
-        databaseSettings.ConnectionString,
-        o => o
-            .SetPostgresVersion(17, 0)
-            .UseNodaTime()));
+builder.AddDefaultDatabase(); 
 
 builder.Services.Configure<StorageSettings>(
     builder.Configuration.GetSection(StorageSettings.Key));
