@@ -33,7 +33,15 @@ if (builder.Configuration.GetValue<bool>("SerilogSettings:Active"))
         configuration.ReadFrom.Configuration(context.Configuration));   
 }
 
-builder.AddOpenTelemetryForDevelopment();
+if (builder.Environment.IsDevelopment())
+{
+    builder.AddOpenTelemetryForDevelopment();    
+}
+else
+{
+    builder.AddOpenTelemetryForProduction();
+}
+
 builder.AddDefaultAuthentication();
 builder.AddDefaultRateLimiter();
 builder.AddDefaultCors(allowedCors);

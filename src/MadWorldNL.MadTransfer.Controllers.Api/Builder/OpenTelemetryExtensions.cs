@@ -28,4 +28,9 @@ internal static class OpenTelemetryExtensions
 
         builder.Services.AddOpenTelemetry().UseOtlpExporter();
     }
+
+    internal static void AddOpenTelemetryForProduction(this WebApplicationBuilder builder)
+    {
+        
+    }
 }
