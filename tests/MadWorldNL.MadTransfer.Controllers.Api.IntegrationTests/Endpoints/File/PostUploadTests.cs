@@ -22,7 +22,7 @@ public sealed class PostUploadTests : IClassFixture<ApiWebApplicationFactory>
         using var client = _factory.CreateClient();
         client
             .DefaultRequestHeaders
-            .Authorization = new AuthenticationHeaderValue("Bearer", _factory.GetJwtToken());
+            .Authorization = new AuthenticationHeaderValue("Bearer", ApiWebApplicationFactory.GetJwtToken());
         
         // Prepare file content (for example, from memory or disk)
         var fileContent = new ByteArrayContent("File content here"u8.ToArray());

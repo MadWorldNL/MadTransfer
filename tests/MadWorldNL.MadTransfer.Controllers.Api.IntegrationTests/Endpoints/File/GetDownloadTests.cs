@@ -19,7 +19,7 @@ public sealed class GetDownloadTests(ApiWebApplicationFactory factory) : IClassF
         using var client = factory.CreateClient();
         client
             .DefaultRequestHeaders
-            .Authorization = new AuthenticationHeaderValue("Bearer", factory.GetJwtToken());
+            .Authorization = new AuthenticationHeaderValue("Bearer", ApiWebApplicationFactory.GetJwtToken());
         
         // Act
         var response = await client.GetAsync($"/File/Download?id={id}");

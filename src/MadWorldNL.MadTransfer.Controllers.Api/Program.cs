@@ -57,7 +57,7 @@ app.AddStatusEndpoints();
 
 app.Services.MigrateDatabase<MadTransferContext>();
 
-app.Run();
+await app.RunAsync();
 
 /// <summary>
 /// Exposes the application's entry point so that integration tests
@@ -67,4 +67,5 @@ app.Run();
 [UsedImplicitly]
 public partial class Program
 {
+    private Program() {}
 }

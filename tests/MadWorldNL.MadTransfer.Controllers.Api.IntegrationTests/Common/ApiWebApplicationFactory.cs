@@ -102,10 +102,7 @@ public class ApiWebApplicationFactory : WebApplicationFactory<Program>
     /// dotnet user-jwts create -n DonaldDuck
     /// </summary>
     /// <returns>JWT token</returns>
-    public string GetJwtToken()
-    {
-        return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Ik1hZFRyYW5zZmVyIiwic3ViIjoiTWFkVHJhbnNmZXIiLCJqdGkiOiJkMDdhNTA1OSIsIm5hbWVpZCI6ImFhNTg0OWJhLTE0YzMtNDA0OS1hYzQ0LTgxNTZhYjFhODUzYyIsImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0OjUyOTMiLCJodHRwczovL2xvY2FsaG9zdDo3Mjk5Il0sIm5iZiI6MTc1NDk0NjY5OSwiZXhwIjo0OTA4NTQ2Njk5LCJpYXQiOjE3NTQ5NDY3MDAsImlzcyI6ImRvdG5ldC11c2VyLWp3dHMifQ.e2QDdMEPH9jbWfWynxFKrU-USK-ZYk3sHTlq-fMX0qs";
-    }
+    public static string GetJwtToken() =>"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Ik1hZFRyYW5zZmVyIiwic3ViIjoiTWFkVHJhbnNmZXIiLCJqdGkiOiJkMDdhNTA1OSIsIm5hbWVpZCI6ImFhNTg0OWJhLTE0YzMtNDA0OS1hYzQ0LTgxNTZhYjFhODUzYyIsImF1ZCI6WyJodHRwOi8vbG9jYWxob3N0OjUyOTMiLCJodHRwczovL2xvY2FsaG9zdDo3Mjk5Il0sIm5iZiI6MTc1NDk0NjY5OSwiZXhwIjo0OTA4NTQ2Njk5LCJpYXQiOjE3NTQ5NDY3MDAsImlzcyI6ImRvdG5ldC11c2VyLWp3dHMifQ.e2QDdMEPH9jbWfWynxFKrU-USK-ZYk3sHTlq-fMX0qs";
 
     public override async ValueTask DisposeAsync()
     {
