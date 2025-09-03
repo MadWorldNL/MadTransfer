@@ -1,7 +1,7 @@
 ﻿FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 ARG BUILDPLATFORM
-RUN apt-get update
-RUN apt-get --no-install-recommends install -y curl
+RUN apt-get update  \
+    && apt-get --no-install-recommends install -y curl
 
 USER $APP_UID
 WORKDIR /app
