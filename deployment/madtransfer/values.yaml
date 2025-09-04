@@ -98,3 +98,4 @@ logger:
     name: "logger-secret"
     apiKeys:
       api: "nonExistingKey1234"
+      tools: "nonExistingKey1234"

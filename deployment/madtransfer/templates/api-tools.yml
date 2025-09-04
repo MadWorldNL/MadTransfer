@@ -30,6 +30,16 @@ spec:
               cpu: 100m
               memory: 200Mi
               ephemeral-storage: "1Gi"
+          env:
+            - name: OpenTelemetrySettings__Mode
+              value: FullStack
+            - name: OpenTelemetrySettings__Seq__Url
+              value: http://{{ .Values.logger.loadBalancer }}
+            - name: OpenTelemetrySettings__Seq__ApiKey
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.logger.secret.name }}
+                  key: apikeyapi
           ports:
             - containerPort: 8080
 ---
