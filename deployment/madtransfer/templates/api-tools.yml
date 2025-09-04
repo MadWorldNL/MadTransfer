@@ -39,7 +39,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.logger.secret.name }}
-                  key: apikeyapi
+                  key: apikeytools
           ports:
             - containerPort: 8080
 ---

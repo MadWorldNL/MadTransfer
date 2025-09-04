@@ -36,7 +36,7 @@ madtools:
     loadBalancer: "mad-tools-api-load-balancer"
     image: "ghcr.io/madworldnl/mad-tools-api"
     host: "tools-api.mad-world.eu"
-    tag: "v1.1.0"
+    tag: "v1.2.0"
     
 database:
   enabled: true
