@@ -15,6 +15,15 @@ data:
   {{- else }}
   apikeyapi: {{ .Values.logger.secret.apiKeys.api | b64enc }}
 {{- end }}
+{{- if and $loggerSecrets $loggerSecrets.data }}
+  {{- if $loggerSecrets.data.apikeytools }}
+  apikeytools: {{ $loggerSecrets.data.apikeytools }}
+    {{- else }}
+  apikeytools: {{ .Values.logger.secret.apiKeys.tools | b64enc }}
+    {{- end }}
+  {{- else }}
+  apikeytools: {{ .Values.logger.secret.apiKeys.tools | b64enc }}
+{{- end }}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
