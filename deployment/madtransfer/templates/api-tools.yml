@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.madtools.api.deployment }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.madtools.api.app }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.madtools.api.app }}
+      task: {{ .Values.madtools.api.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.madtools.api.app }}
+        task: {{ .Values.madtools.api.name }}
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: {{ .Values.madtools.api.name }}
+          image: {{ .Values.madtools.api.image }}:{{ .Values.madtools.api.tag }}
+          resources:
+            requests:
+              cpu: 100m
+              memory: 200Mi
+              ephemeral-storage: "1Gi"
+            limits:
+              cpu: 100m
+              memory: 200Mi
+              ephemeral-storage: "1Gi"
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.madtools.api.loadBalancer }}
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: {{ .Values.madtools.api.app }}
+    task: {{ .Values.madtools.api.name }}
+  ports:
+    - protocol: TCP
+      name: http
+      port: 8080
+      targetPort: 8080
+  type: LoadBalancer
