@@ -27,6 +27,16 @@ madtransfer:
     loadBalancer: "mad-transfer-web-load-balancer"
     image: "ghcr.io/madworldnl/mad-transfer-web"
     host: "transfer.mad-world.eu"
+
+madtools:
+  api:
+    deployment: "mad-tools-api-deployment"
+    app: "mad-tools-api"
+    name: "mad-tools-api"
+    loadBalancer: "mad-tools-api-load-balancer"
+    image: "ghcr.io/madworldnl/mad-tools-api"
+    host: "tools-api.mad-world.eu"
+    tag: "v1.1.0"
     
 database:
   enabled: true
