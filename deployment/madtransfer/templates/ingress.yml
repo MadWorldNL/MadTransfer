@@ -4,7 +4,7 @@ metadata:
   name: ingress
   namespace: {{ .Values.namespace }}
   annotations:
-    cert-manager.io/cluster-issuer: "lets-encrypt"
+    cert-manager.io/cluster-issuer: {{ .Values.clusterIssuer.name }}
     cert-manager.io/common-name: {{ .Values.certification.commonDomain }}
     cert-manager.io/subject-countries: {{ .Values.certification.country }}
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"

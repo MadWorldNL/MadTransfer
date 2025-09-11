@@ -5,6 +5,7 @@ image:
 
 clusterIssuer:
   enabled: true
+  name: "lets-encrypt-transfer"
 
 certification:
   email: "oveldman@gmail.com"
