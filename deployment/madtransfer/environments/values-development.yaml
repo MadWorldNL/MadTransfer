@@ -5,12 +5,19 @@ image:
 
 clusterIssuer:
   enabled: false
+  
+certification:
+  commonDomain: "www.mad-world.local"
 
 madtransfer:
   api:
     host: "transfer-api.mad-world.local"
   web:
     host: "transfer.mad-world.local"
+  
+madtools:
+  api:
+    host: "tools-api.mad-world.local"
     
 admin:
   database: 
@@ -18,3 +25,6 @@ admin:
 
 keycloak:
   host: "identity.mad-world.local"
+  
+logger:
+  host: "log.mad-world.local"
