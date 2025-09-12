@@ -33,7 +33,7 @@ spec:
               service:
                 name: {{ .Values.madtransfer.api.loadBalancer }}
                 port:
-                  number: 8080
+                  number: {{ .Values.madtransfer.api.port }}
     - host: {{ .Values.madtransfer.web.host }}
       http:
         paths:
@@ -43,7 +43,7 @@ spec:
               service:
                 name: {{ .Values.madtransfer.web.loadBalancer }}
                 port:
-                  number: 80
+                  number: {{ .Values.madtransfer.web.port }}
     - host: {{ .Values.certification.commonDomain }}
       http:
         paths:
@@ -53,7 +53,7 @@ spec:
               service:
                 name: {{ .Values.madtransfer.web.loadBalancer }}
                 port:
-                  number: 80
+                  number: {{ .Values.madtransfer.web.port }}
     - host: {{ .Values.keycloak.host }}
       http:
         paths:
@@ -63,7 +63,7 @@ spec:
               service:
                 name: {{ .Values.keycloak.loadBalancer }}
                 port:
-                  number: 8080
+                  number: {{ .Values.keycloak.ports.http }}
     - host: {{ .Values.admin.database.host }}
       http:
         paths:
@@ -73,7 +73,7 @@ spec:
               service:
                 name: {{ .Values.admin.database.loadBalancer }}
                 port:
-                  number: 80
+                  number: {{ .Values.admin.database.port }}
     - host: {{ .Values.logger.host }}
       http:
         paths:
@@ -83,7 +83,7 @@ spec:
               service:
                 name: {{ .Values.logger.loadBalancer }}
                 port:
-                  number: 80
+                  number: {{ .Values.logger.port }}
     - host: {{ .Values.madtools.api.host }}
       http:
         paths:
@@ -93,4 +93,4 @@ spec:
               service:
                 name: {{ .Values.madtools.api.loadBalancer }}
                 port:
-                  number: 8080
+                  number: {{ .Values.madtools.api.port }}
