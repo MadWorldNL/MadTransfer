@@ -41,6 +41,24 @@ spec:
       containers:
         - name: {{ .Values.admin.database.name }}
           image: {{ .Values.admin.database.image }}:{{ .Values.admin.database.tag }}
+          startupProbe:
+            httpGet:
+              path: /misc/ping
+              port: {{ .Values.admin.database.port }}
+            periodSeconds: 5
+            failureThreshold: 100
+          readinessProbe:
+            httpGet:
+              path: /misc/ping
+              port: {{ .Values.admin.database.port }}
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /misc/ping
+              port: {{ .Values.admin.database.port }}
+            periodSeconds: 10
+            failureThreshold: 3
           resources:
             requests:
               cpu: 600m
@@ -62,7 +80,7 @@ spec:
                   name: {{ .Values.admin.database.secret.name }}
                   key: password
           ports:
-            - containerPort: 80
+            - containerPort: {{ .Values.admin.database.port }}
 ---
 apiVersion: v1
 kind: Service

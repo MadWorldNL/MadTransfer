@@ -69,6 +69,24 @@ spec:
       containers:
         - name: {{ .Values.madtransfer.web.name }}
           image: {{ .Values.madtransfer.web.image }}:{{ .Values.image.tag }}
+          startupProbe:
+            httpGet:
+              path: /healthz.txt
+              port: {{ .Values.madtransfer.web.port }}
+            periodSeconds: 5
+            failureThreshold: 100
+          readinessProbe:
+            httpGet:
+              path: /healthz.txt
+              port: {{ .Values.madtransfer.web.port }}
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /healthz.txt
+              port: {{ .Values.madtransfer.web.port }}
+            periodSeconds: 10
+            failureThreshold: 3
           resources:
             requests:
               cpu: 100m
@@ -105,7 +123,7 @@ spec:
               subPath: default.conf
               readOnly: true
           ports:
-            - containerPort: 8080
+            - containerPort: {{ .Values.madtransfer.web.port }}
       volumes:
         - name: "{{ .Values.madtransfer.web.app }}-appsettings-config-volume"
           configMap:
