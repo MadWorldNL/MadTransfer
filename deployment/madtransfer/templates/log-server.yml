@@ -61,6 +61,24 @@ spec:
       containers:
         - name: {{ .Values.logger.name }}
           image: {{ .Values.logger.image }}:{{ .Values.logger.tag }}
+          startupProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.logger.port }}
+            periodSeconds: 5
+            failureThreshold: 100
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.logger.port }}
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.logger.port }}
+            periodSeconds: 10
+            failureThreshold: 3
           resources:
             requests:
               memory: "500Mi"
@@ -76,7 +94,7 @@ spec:
             - name: SEQ_FIRSTRUN_ADMINPASSWORD
               value: {{ .Values.logger.defaultpassword }}
           ports:
-            - containerPort: 80
+            - containerPort: {{ .Values.logger.port }}
           volumeMounts:
             - name: logger-data
               mountPath: /data   # path inside the container

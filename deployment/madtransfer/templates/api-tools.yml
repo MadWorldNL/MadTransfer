@@ -21,6 +21,24 @@ spec:
       containers:
         - name: {{ .Values.madtools.api.name }}
           image: {{ .Values.madtools.api.image }}:{{ .Values.madtools.api.tag }}
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: {{ .Values.madtools.api.port }}
+            periodSeconds: 5
+            failureThreshold: 100
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: {{ .Values.madtools.api.port }}
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: {{ .Values.madtools.api.port }}
+            periodSeconds: 10
+            failureThreshold: 3
           resources:
             requests:
               cpu: 100m
@@ -41,7 +59,7 @@ spec:
                   name: {{ .Values.logger.secret.name }}
                   key: apikeytools
           ports:
-            - containerPort: 8080
+            - containerPort: {{ .Values.madtools.api.port }}
 ---
 apiVersion: v1
 kind: Service

@@ -21,6 +21,24 @@ spec:
       containers:
         - name: {{ .Values.madtransfer.api.name }}
           image: {{ .Values.madtransfer.api.image }}:{{ .Values.image.tag }}
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: {{ .Values.madtransfer.api.port }}
+            periodSeconds: 5
+            failureThreshold: 100
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: {{ .Values.madtransfer.api.port }}
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: {{ .Values.madtransfer.api.port }}
+            periodSeconds: 10
+            failureThreshold: 3
           resources:
             requests:
               cpu: 100m
@@ -77,7 +95,7 @@ spec:
                   name: {{ .Values.storage.name }}
                   key: secretkey
           ports:
-            - containerPort: 8080
+            - containerPort: {{ .Values.madtransfer.api.port }}
 ---
 apiVersion: v1
 kind: Service
