@@ -39,7 +39,7 @@ madtools:
     loadBalancer: "mad-tools-api-load-balancer"
     image: "ghcr.io/madworldnl/mad-tools-api"
     host: "tools-api.mad-world.eu"
-    tag: "v1.2.0"
+    tag: "v1.3.0"
     port: 8080
     
 database:
