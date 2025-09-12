@@ -109,7 +109,7 @@ spec:
   ports:
     - protocol: TCP
       name: http
-      port: 8080
-      targetPort: 8080
+      port: {{ .Values.madtransfer.api.port }}
+      targetPort: {{ .Values.madtransfer.api.port }}
   type: LoadBalancer
   

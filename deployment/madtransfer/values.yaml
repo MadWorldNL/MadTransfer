@@ -29,7 +29,7 @@ madtransfer:
     loadBalancer: "mad-transfer-web-load-balancer"
     image: "ghcr.io/madworldnl/mad-transfer-web"
     host: "transfer.mad-world.eu"
-    port: 8080
+    port: 80
 
 madtools:
   api:
@@ -85,6 +85,9 @@ storage:
 keycloak:
   loadBalancer: "keycloak"
   host: "identity.mad-world.eu"
+  ports:
+    health: 9000
+    http: 8080
   
 logger:
   enabled: true

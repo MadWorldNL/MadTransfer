@@ -110,23 +110,23 @@ spec:
                   key: username
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: {{ .Values.keycloak.ports.http }}
           startupProbe:
             httpGet:
               path: /health/started
-              port: 9000
+              port: {{ .Values.keycloak.ports.health }}
             periodSeconds: 1
             failureThreshold: 600
           readinessProbe:
             httpGet:
               path: /health/ready
-              port: 9000
+              port: {{ .Values.keycloak.ports.health }}
             periodSeconds: 10
             failureThreshold: 3
           livenessProbe:
             httpGet:
               path: /health/live
-              port: 9000
+              port: {{ .Values.keycloak.ports.health }}
             periodSeconds: 10
             failureThreshold: 3
           resources:

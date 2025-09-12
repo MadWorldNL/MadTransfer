@@ -144,7 +144,7 @@ spec:
   ports:
     - protocol: TCP
       name: http
-      port: 80
-      targetPort: 80
+      port: {{ .Values.madtransfer.web.port }}
+      targetPort: {{ .Values.madtransfer.web.port }}
   type: LoadBalancer
   
