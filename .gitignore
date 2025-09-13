@@ -422,3 +422,6 @@ FodyWeavers.xsd
 
 # MacOS
 .DS_Store
+
+# Mad Transfer
+**/wwwroot/lib/bootstrap/
