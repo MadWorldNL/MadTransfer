@@ -420,5 +420,5 @@ FodyWeavers.xsd
 # Rider
 .idea/
 
-# Angular
-.angular/
+# MacOS
+.DS_Store
