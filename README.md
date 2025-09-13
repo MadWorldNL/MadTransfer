@@ -24,8 +24,12 @@ dotnet test
 
 ## Acknowledge
 This project leverages several outstanding open-source tools and platforms. We are grateful to the communities behind these technologies for their continuous innovation and support:
+- [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/)\
+  A free and open-source front-end framework for faster and easier web development.
+- [CDN JS](https://cdnjs.com/)\
+  A free and open-source content delivery network (CDN) built to make it easy to use third-party JavaScript and CSS libraries on your website.
 - [Cloud Native PG](https://cloudnative-pg.io/)\
-A Kubernetes operator for managing PostgreSQL clusters in a cloud-native way. It provides robust automation, high availability, and native integration with Kubernetes environments.
+  A Kubernetes operator for managing PostgreSQL clusters in a cloud-native way. It provides robust automation, high availability, and native integration with Kubernetes environments.
 - [Key Cloak](https://www.keycloak.org/)\
   An open-source identity and access management solution, offering single sign-on (SSO), authentication, authorization, and social login capabilities.
 - [Kubernetes](https://kubernetes.io/)\
@@ -36,3 +40,4 @@ A Kubernetes operator for managing PostgreSQL clusters in a cloud-native way. It
   A powerful, open-source object-relational database system known for its reliability, feature richness, and performance.
 - [S3 Ninja](https://s3ninja.net/)\
   A lightweight and easy-to-use mock S3 server for testing S3-compatible applications locally, without needing a connection to AWS.
+  
